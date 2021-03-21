@@ -124,6 +124,7 @@ function createNewItem(){
   return false;
 }
 function saveRowVal(obj){
+	document.cookie = "mytoken=47896521330";
 	if(confirm("Are you sure you want to Save details.")){
 	var map={};
 	for(i=2;i<=5;i++){
@@ -138,6 +139,7 @@ function saveRowVal(obj){
 			return false;
 		}
 		map[key]=val.substr(0,val.length-1);
+		
 	}
 	map["item"]=$(obj).parent().parent().find('td').eq(1).html();
 	$(obj).attr('disabled', true);
