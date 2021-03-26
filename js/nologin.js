@@ -27,14 +27,14 @@ function checkLogin(obj){
 				}else{
 					localStorage.setItem("i_token",$(response).attr('loginToken'));
 					localStorage.setItem('i_data',JSON.stringify(response));
+					localStorage.setItem("i_userType",$(response).attr('userType'))
+					localStorage.setItem("i_area",$(response).attr('area'))
 					if($(response).attr('userName') == null){
 						var str = "Welcome Admin User with Mobile No. "+$(response).attr('mobileNo')+"\nYour Account has been created with us.\nOne more step to access your dashboard\nYou will be redirect to enter your profile details";
 						alert(str);
 						location.href="admin-completeprofile.html";
 					}else{
 						localStorage.setItem("i_username",$(response).attr('userName'));
-						localStorage.setItem("i_area",$(response).attr('area'))
-						localStorage.setItem("i_userType",$(response).attr('userType'))
 						if($(response).attr('userType') == 'A'){
 							location.href="admin-entry.html";
 						}if($(response).attr('userType') == 'S'){
