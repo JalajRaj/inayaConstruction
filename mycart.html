@@ -1,0 +1,223 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- awesone fonts css-->
+    <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
+    <!-- owl carousel css-->
+    <link rel="stylesheet" href="owl-carousel/assets/owl.carousel.min.css" type="text/css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+	
+    <title>inaya Construction</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="topHeadersection"></div>
+
+<div class="container">
+  <div class="row border" style="padding-top:10px;padding-bottom:10px">
+ 
+  <div class="col-md-12">
+  <b style="color:red" id="loadingdiv">Loading Please Wait....</b>
+   <div align="center">
+   <img src="images/mycartdetails.png">
+   </div>
+  <br><br>
+  </div>
+	<div class="col-md-12">
+		  <table id="displayTableDetails"
+				class="table table-striped table-bordered table-hover">
+				<thead>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">#</a></th>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">Item</a></th>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">Type</a></th>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">Brand</a></th>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">Grade</a></th>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">Unit</a></th>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">Price</a></th>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">ShopName</a></th>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">Quantity</a></th>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">Actual Price</a></th>
+					<th><a href="javascript:void(0)" style="cursor: pointer;">Remove</a></th>
+				</thead>
+				<tbody class="tb-text"></tbody>
+				<tfoot class="tb-text">
+					<td colspan=9 style="text-align:right"><b>Total Product Price<b></td>
+					<td><b id="finalPrice">0 Rs</b></td>					
+				</tfoot>
+			</table>
+		</div>
+	
+
+
+	
+	<section class="ftco-section ftco-cart">
+			<div class="container">
+				<div class="row" id="cardDetailsData">
+    				</div>
+    		
+    			<div class="row">
+				<div class="col-sm-6">
+    			
+    			<div class="cart-wrap ftco-animate">
+    				<div class="cart-total mb-3">
+    					<h3>Order Summary</h3>
+    					<p class="d-flex">
+    						<span class="line-through">MRP</span>
+    						<span id="MRPfinalTotal" class="line-through">0</span>
+    					</p>
+						
+    					<p class="d-flex">
+    						<span>Delivery Charge</span>
+    						<span id="deliveryCharge">0 Rs</span>
+    					</p>
+    					<p class="d-flex">
+    						<span>Coupon Discount</span>
+    						<span id="disc">0 Rs</span>
+    					</p>
+    					<hr>
+    					<p class="d-flex total-price">
+    						<span>Total</span>
+    						<span id="mainTotal">0</span>
+    					</p>
+    				</div>
+    				
+    			</div>
+    			
+    				<div class="cart-wrap ftco-animate">
+    				<div class="cart-total mb-3">
+    					<h3>Coupon Code</h3>
+    					<p>Enter your coupon code if you have one</p>
+  						<form action="#" class="info">
+	              		<div class="form-group">
+	              			<label for="">Coupon code</label>
+	                		<input id="coupontxt" type="text" class="form-control text-left px-3" placeholder="">
+	              		</div>
+	              			<p><a href="#" onclick="return applyCoupon()" class="btn btn-primary py-3 px-4">Apply Coupon</a></p>
+	            		</form>
+    				</div>
+    			</div>
+    			
+    			</div>
+    			<div class="col-sm-6">
+    		<div class="row justify-content-end">
+    		
+    		          <div class="col-xl-12 ftco-animate">
+						<form action="#" class="billing-form">
+							<h3 class="mb-4 billing-heading">Billing Details</h3>
+	          	<div class="row align-items-end">
+	          		<div class="col-md-12">
+	                <div class="form-group">
+	                	<label for="firstname">Full Name *</label>
+	                  <input type="text" id="fname" onkeypress="return checkSpcialChar(event)" class="form-control" placeholder="" maxlength=50>
+	                </div>
+	              </div>
+	              
+                <div class="w-100"></div>
+		            <div class="col-md-6">
+		            	<div class="form-group">
+		            		<label for="country">Location *</label>
+		            		<div class="select-wrap">
+		                  <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+		                  <select name="" id="area" class="form-control"> </select>
+		                </div>
+		            	</div>
+		            </div>
+					<div class="col-md-6">
+		            	<div class="form-group">
+		            		<label for="postcodezip">Pincode / ZIP *</label>
+	                  <input type="text" id="pincode" onkeypress="return checkSpcialChar(event)" class="form-control"  maxlength=10>
+	                </div>
+		            </div>
+		            <div class="w-100"></div>
+		            <div class="col-md-12">
+		            	<div class="form-group">
+	                	<label for="streetaddress"> Address *</label>
+	                    <input type="text" id="address" onkeypress="return checkSpcialChar(event)" class="form-control"  placeholder="Building Name and Sector" maxlength=200 >
+	                </div>
+		            </div>
+		            
+		            <div class="w-100"></div>
+		            
+		            
+		            <div class="w-100"></div>
+		            <div class="col-md-6">
+	                <div class="form-group">
+	                	<label for="phone">Mobile Number *</label>
+	                  <input type="number" id="mobileNo" readonly class="form-control" onkeypress="return checkSpcialChar(event)"  placeholder="" maxlength=10>
+	                </div>
+	              </div>
+	              <div class="col-md-6">
+	                <div class="form-group">
+	                	<label for="emailaddress">Email Address *</label>
+	                  <input type="text" id="emailid" readonly class="form-control"   placeholder="" maxlength=100>
+	                </div>
+                </div>
+				<div class="col-md-12">
+	                <div class="form-group">
+	                	<label for="additionalNote">Additional Note (if any)</label>
+	                  <input type="text" id="additionalNote" class="form-control"  placeholder="" >
+	                </div>
+	              </div>
+               
+	            </div>
+	          </form><!-- END -->
+					</div>
+				
+    			
+    			 	<div class="col-md-12">
+					
+					<input type="submit" value="Place an order" class="btn btn-primary py-3 px-5" onclick="return placeOrder()">
+	          		
+	          	</div>
+	          	
+    		</div>
+			</div>
+		</section>
+		</div>
+</div>
+
+<div id="footersection"></div>
+
+<div class="modal fade" id="lodaingModal" tabindex="-1" role="dialog"  data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Order Confirmation</h5>
+		  </div>
+		  <div class="modal-body">
+			<div id="popcontent"></div>
+		  </div>
+		  <div class="modal-footer" id="footerid">
+			<button type="button" class="btn btn-primary" id="closeButton" onClick="return closePopup()">Close</button>
+			<button type="button" class="btn btn-primary" id="placeOrder" onClick="return placefinalOrder(this)">Place Order</button>
+		  </div>
+		</div>
+	  </div>
+	</div>	
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="js/jquery.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- owl carousel js-->
+<script src="owl-carousel/owl.carousel.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/config.js"></script>
+<script src="js/user.js"></script>
+<script>
+fetchmyCartDetails();
+getAllLocation();
+</script>
+</body>
+</html>

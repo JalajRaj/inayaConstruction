@@ -1,11 +1,21 @@
-var serverURL = "https://o2mv5wbo9f.execute-api.ap-south-1.amazonaws.com/dev/S/";
+serverURL = serverURL + "S/"+localStorage.getItem("i_userType")+"/";
 
 function saveLocation(obj){
-	if(confirm("Are you sure you want to add new location.\nOnce location is added it cannot be deleted.")){
+	var item = $(obj).parent().parent().find('#addText').val();
+	if(item == ""){
+		alert("Please enter Location Name");
+		return false;
+	}
+	if(item.indexOf(" ")!= -1){
+		alert("Sorry space is not allowed");
+		return false;
+	}
+	if(confirm("Are you sure you want to add new location.")){
 		$(obj).attr('disabled', true);
 		$(obj).val('Please Wait..');
 		var map = {};
-		map["item"] = $(obj).parent().parent().find('#addText').val();
+		map["item"] = item;
+		map["token"]=localStorage.getItem("i_token");
 		$.ajax({
 			type: 'POST',
 			url: serverURL + "createNewLocation",
@@ -18,6 +28,7 @@ function saveLocation(obj){
 			},
 			error: function (response) {
 				alert("Error while Adding location"+response);
+				checkErrorResp(response);
 				$(obj).attr('disabled', false);
 				$(obj).val('Save Location');
 			}
@@ -65,6 +76,7 @@ function deleteRowVal(obj){
 		$(obj).val('Please Wait..');
 		var map = {};
 		map["item"] = $(obj).attr('data-value');
+		map["token"]=localStorage.getItem("i_token");
 		$.ajax({
 			type: 'POST',
 			url: serverURL + "deleteMaterial",
@@ -79,6 +91,7 @@ function deleteRowVal(obj){
 				alert("Error while Deleting "+response);
 				$(obj).attr('disabled', false);
 				$(obj).val('Save');
+				checkErrorResp(response);
 			}
 		});
 	}	
@@ -89,6 +102,7 @@ function deleteLocation(obj){
 		$(obj).val('Please Wait..');
 		var map = {};
 		map["location"] = $(obj).attr('data-value');
+		map["token"]=localStorage.getItem("i_token");
 		$.ajax({
 			type: 'POST',
 			url: serverURL + "deleteLocation",
@@ -103,6 +117,7 @@ function deleteLocation(obj){
 				alert("Error while Deleting "+response);
 				$(obj).attr('disabled', false);
 				$(obj).val('Save Location');
+				checkErrorResp(response);
 			}
 		});
 	}	
@@ -124,9 +139,9 @@ function createNewItem(){
   return false;
 }
 function saveRowVal(obj){
-	document.cookie = "mytoken=47896521330";
 	if(confirm("Are you sure you want to Save details.")){
 	var map={};
+	map["token"]=localStorage.getItem("i_token");
 	for(i=2;i<=5;i++){
 		var key = $(obj).parent().parent().find('td').eq(i).attr('data-value');
 		var myLoop = $(obj).parent().parent().find('td').eq(i).find('li');
@@ -157,6 +172,7 @@ function saveRowVal(obj){
 				alert("Error while updating data "+response);
 				$(obj).attr('disabled', false);
 				$(obj).val('Save');	
+				checkErrorResp(response);
 			}
 		});
 	}
@@ -166,6 +182,7 @@ function initMasterConfig(){
 	$("#loadingdiv").show();
 	$.ajax({
 		type: 'POST',
+		data:'{"token":"' + localStorage.getItem("i_token") + '"}',
 		url: serverURL + "fetchAllMasterConfigInfo",
 		success: function (response1) {
 			$(response1).each(function(i,obj1){					
@@ -193,7 +210,110 @@ function initMasterConfig(){
 		},
 		error: function (response) {
 			alert("Error while updating data");
-			validateFail(response);
+			checkErrorResp(response);
 		}
 	});	
+}
+
+
+function createAdminUser(obj){
+	if($("#mobileNo").val() == "" || $("#mobileNo").val().length !=10){
+		alert("Please enter valid Mobile No");
+		return false;
+	}
+	if($("#emailid").val() == ""){
+		alert("Please enter valid Email ID");
+		return false;
+	}
+	if(confirm("Are you sure you want to create new Admin User ?")){
+		$(obj).attr('onclick', "");
+		$(obj).html('Please Wait....<i class="fa fa-angle-right" aria-hidden="true"></i>');
+		var map = {};
+		map["mobileNo"] = $("#mobileNo").val();
+		map["area"] = $("#area").val();
+		map["emailid"] = $("#emailid").val().trim();
+		map["token"]=localStorage.getItem("i_token");
+		$.ajax({
+			type: 'POST',
+			url: serverURL + "createNewAdminUser",
+			data: JSON.stringify(map),
+			success: function (response) {
+				alert(response);
+				location.reload();
+			},
+			error: function (response) {
+				alert("Error unable to create Admin User "+response);
+				checkErrorResp(response);
+				location.reload();
+			}
+		});
+	}
+return false;	
+}
+function fetchAllLocInfo(){
+	$.ajax({
+		type: 'POST',
+		data:'{"token":"' + localStorage.getItem("i_token") + '"}',
+		url: serverURL + "fetchAllMasterConfigInfo",
+		success: function (response1) {
+			if($(response1).attr("item") == 'location'){
+				var obj3 = $(response1).attr('type');
+					if(obj3 != undefined){
+						$(obj3).each(function(k,obj4){
+							$("#area").append('<option value="'+obj4+'">'+obj4+'</option>');
+						})
+					}
+			}		
+		},
+		error: function (response) {
+			alert("Error while fetching LOC data");
+			checkErrorResp(response);
+		}
+	});
+}
+function fetchAllAdminUser(){
+	$.ajax({
+		type: 'POST',
+		data:'{"token":"' + localStorage.getItem("i_token") + '"}',
+		url: serverURL + "getAllAdminUser",
+		success: function (response1) {
+			$(response1).each(function(i,obj){
+				var name = $(obj).attr('userName') == null ? "(User not signin)" : $(obj).attr('userName');
+				var add = $(obj).attr('address') == null ? "(User not signin)" : $(obj).attr('address');
+				$("#displayTableDetails tbody").append('<tr><td>'+(++i)+'</td><td>'+name+'</td><td>'+$(obj).attr('mobileNo')+'</td><td>'+$(obj).attr('emailID')+'</td><td>'+$(obj).attr('area')+'</td><td>'+add+'</td></tr>');
+			})
+		},
+		error: function (response) {
+			alert("Error while fetching LOC data");
+			checkErrorResp(response);
+		}
+	});
+}
+
+function fetchAllTransaction(){
+	$("#loadingdiv").show();
+	$.ajax({
+		type: 'POST',
+		data:'{"token":"' + localStorage.getItem("i_token") + '"}',
+		url: serverURL + "getAllTransaction",
+		success: function (response1) {
+			$(response1).each(function(i,obj){
+				var add = $(obj).attr('address') + ", Area: "+$(obj).attr('area')
+				$("#displayTableDetails tbody").append('<tr><td>'+(++i)+'</td><td>'+$(obj).attr('orderid')+'</td><td>'+$(obj).attr('userName')+'</td><td>'+$(obj).attr('mobileNo')+'</td><td>'+$(obj).attr('emailID')+'</td><td>'+add+'</td><td>'+$(obj).attr('addNotes')+'</td><td>'+$(obj).attr('orderStatus')+'</td><td>'+$(obj).attr('transDate')+'</td><td><input type="button" value="More" onclick="return showTransDetails(this)" data-val="'+$(obj).attr("orderDetails")+'" class="btn btn-primary"></td></tr>');
+			})
+			$("#loadingdiv").hide();
+		},
+		error: function (response) {
+			alert("Error while fetching Trans data");
+			checkErrorResp(response);
+		}
+	});
+}
+
+function showTransDetails(obj){
+	$("#lodaingModal").modal('show');
+	$("#popcontent").html("<style type='text/css'>table {border-collapse: collapse;border-spacing: 0;width: 100%;border: 1px solid #ddd;}th, td {text-align: left;padding: 8px;}tr:nth-child(even){background-color: #f2f2f2}</style><div style='overflow-x:auto;'>"+$(obj).attr("data-val")+"</div>");	
+}
+function closePopup(){
+	$("#lodaingModal").modal('hide');
 }

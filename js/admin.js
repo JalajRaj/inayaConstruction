@@ -1,4 +1,4 @@
-var serverURL = "https://o2mv5wbo9f.execute-api.ap-south-1.amazonaws.com/dev/A/";
+serverURL = serverURL + "A/"+localStorage.getItem("i_userType")+"/";
 var masterResp;
 var validation = {
     isNumber:function(str) {
@@ -6,40 +6,60 @@ var validation = {
         return pattern.test(str);  // returns a boolean
     }
 };
-function initmasterInfo(){
+function initAdminEntryInfo(){
 	$("#loadingdiv").show();
+	var selectbox = '';
 	$.ajax({
 			type: 'POST',
+			data:'{"token":"' + localStorage.getItem("i_token") + '"}',
 			url: serverURL + "fetchAllMasterConfigInfo",
 			success: function (response) {				
 				masterResp=response;
 				$(masterResp).each(function(i,obj1){
 					if($(obj1).attr('item') != 'location'){
 						$("#popupselect").append('<option value="'+$(obj1).attr('item')+'">'+$(obj1).attr('item')+'</option>')
-					}else{
-						var obj3 = $(obj1).attr('type');
+					}else if(localStorage.getItem("i_userType") == 'S'){
+						var obj3 = $(response).attr('type');
 						if(obj3 != undefined){
+							selectbox="<select id='area' onchange='return initRegionData()'>"
 							$(obj3).each(function(k,obj4){
-								$("#locationVal").append('<option value="'+obj4+'">'+obj4+'</option>');
-							})
+								selectbox = selectbox + '<option value="'+obj4+'">'+obj4+'</option>';
+							});
+							selectbox = selectbox + "</select>";
 						}
 					}
 				});
+				var areaInfo = localStorage.getItem("i_area");
+				if(selectbox != ''){
+					areaInfo = selectbox;
+				}
+				$("#userDetails").html("Welcome <b>"+localStorage.getItem("i_username")+"</b>, Area <b>"+areaInfo+"</b>");	
 				initRegionData();				
 			},
 			error: function (response) {
 				alert("Error while updating data "+response);
+				checkErrorResp(response);
 			}
 		});	
 }
+
+function getArea(){
+	if($("#area").val() == undefined){
+		return localStorage.getItem("i_area");
+	}else{
+		return $("#area").val();
+	}	
+}
 function initRegionData(){
 	var map={};
-	map["area"]=$("#locationVal").val();	
+	map["area"]=getArea();
+	map["token"]=localStorage.getItem("i_token");	
 	$.ajax({
 		type: 'POST',
 		data:JSON.stringify(map),
 		url: serverURL + "getRegionWiseData",
 		success: function (response) {
+			$("#displayTableDetails tbody").empty();
 			console.log(response)
 			$(response).each(function(i,obj){
 				if($(obj).attr('item') != "location"){
@@ -53,10 +73,12 @@ function initRegionData(){
 					$(tdLoop).eq(7).find('input').val($(obj).attr('shopName'));
 				}
 			});
+			
 			$("#loadingdiv").hide();
 		},
 		error: function (response) {
 			alert("Error while updating data "+response);
+			checkErrorResp(response);
 		}
 	});	
 }
@@ -79,6 +101,7 @@ function createNewCombination(){
 	closePopup();
 }
 function generatedynamicRow(value,val){
+	
 	$(masterResp).each(function(i,obj1){
 		if($(obj1).attr('item') == value){
 			var tr='<tr><td>'+($("#displayTableDetails tbody tr").length + 1)+'</td><td>'+$(obj1).attr('item')+'<input type="hidden" name="id" value="'+val+'" /></td>';
@@ -96,7 +119,8 @@ function deleteRowVal(obj){
 		$(obj).val('Please Wait..');
 		var map = {};
 		map["id"]=$(obj).parent().parent().find('td').eq(1).find('input').val();
-		map["area"]=$("#locationVal").val();
+		map["area"]=getArea();
+		map["token"]=localStorage.getItem("i_token");
 		$.ajax({
 			type: 'POST',
 			url: serverURL + "deleteRegionWiseRecord",
@@ -111,6 +135,7 @@ function deleteRowVal(obj){
 				alert("Error while Deleting "+response);
 				$(obj).attr('disabled', false);
 				$(obj).val('Save');
+				checkErrorResp(response);
 			}
 		});
 	}	
@@ -118,7 +143,7 @@ function deleteRowVal(obj){
 function saveRowVal(obj){
 	var map={};
 	var par = $(obj).parent().parent().find('td');
-	map["area"]=$("#locationVal").val();
+	map["area"]=getArea();
 	map["id"]=par.eq(1).find('input').val();
 	map["item"]=par.eq(1).html().substr(0,par.eq(1).html().indexOf("<"));
 	map["type"]=par.eq(2).find('select').val();
@@ -127,7 +152,7 @@ function saveRowVal(obj){
 	map["unit"]=par.eq(5).find('select').val();
 	map["price"]=par.eq(6).find('input').val();
 	map["shopName"]=par.eq(7).find('input').val();
-	
+	map["token"]=localStorage.getItem("i_token");
 	if (!validation.isNumber(map['price'])) {
 		alert("Please Enter valid Price");
 		return false;
@@ -142,8 +167,9 @@ function saveRowVal(obj){
 			if($(obj).find('td').eq(1).html().substr(0,par.eq(1).html().indexOf("<")) == map["item"]
 			&& $(obj).find('td').eq(2).find('select').val() == map["type"]
 			&& $(obj).find('td').eq(3).find('select').val() == map["brand"]
-			&& $(obj).find('td').eq(4).find('select').val() == map["grade"]
-			&& $(obj).find('td').eq(5).find('select').val() == map["unit"]){
+			&& $(obj).find('td').eq(4).find('select').val() == map["grade"]			
+			&& $(obj).find('td').eq(5).find('select').val() == map["unit"]
+			&& $(obj).find('td').eq(7).find('input').val().toUpperCase() == map["shopName"].toUpperCase()){
 				alert("Sorry could save this result.\nThis combination already exists at row no "+$(obj).find('td').eq(0).html());
 				found=true;
 			}
@@ -167,8 +193,56 @@ function saveRowVal(obj){
 					alert("Error while updating data "+response);
 					$(obj).attr('disabled', false);
 					$(obj).val('Save');	
+					checkErrorResp(response);
 				}
 			});
 		}
 	}
+}
+
+function initAdminProfile(){
+	var data = JSON.parse(localStorage.getItem('i_data'));
+	$("#mobileNo").val($(data).attr('mobileNo'));
+	if($(data).attr('userName') != null){	
+		location.href="admin-entry.html";
+	}
+}
+function completeAdminProfile(obj){
+	if($("#username").val() == ""){
+		alert("Please enter valid User Name");
+		return false;
+	}
+	if($("#address").val() == ""){
+		alert("Please enter valid Address");
+		return false;
+	}
+	var data = JSON.parse(localStorage.getItem('i_data'));
+	$(obj).attr('onclick', "");
+	$(obj).html('Please Wait....<i class="fa fa-angle-right" aria-hidden="true"></i>');
+	var map = {};
+		map["mobileNo"] = $(data).attr('mobileNo');
+		map["userName"] = $("#username").val();
+		map["token"]=localStorage.getItem("i_token");
+		map["address"] = $("#address").val();
+	$.ajax({
+			type: 'POST',
+			data: JSON.stringify(map),
+			url: serverURL + "saveProfile",
+			success: function (response) {	
+				if("object" == typeof response){
+					alert("User Profile created successfully");	
+					localStorage.setItem("i_username",$(response).attr('userName'));
+					localStorage.setItem("i_area",$(response).attr('area'));
+					localStorage.setItem("i_userType",$(response).attr('userType'))
+					location.href="admin-entry.html";
+				}else{
+					alert(response)
+				}
+			},
+			error: function (response) {
+				alert("Error while Login "+response);
+				checkErrorResp(response);
+				location.reload();
+			}
+		});		
 }
