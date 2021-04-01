@@ -97,6 +97,7 @@ if(localStorage.getItem('i_username') == null){
 					'<ul class="navbar-nav mr-auto">'+
 						'<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>'+
 						'<li class="nav-item"><a class="nav-link" href="admin-entry.html">Admin Entry</a></li>'+
+						'<li class="nav-item"><a class="nav-link" href="admin-transdetails.html">Transaction</a></li>'+
 						'<li class="nav-item"><a class="nav-link" href="changepassword.html">Change Password</a></li>'+
 					'</ul>'+
 					'<form class="form-inline my-2 my-lg-0">'+

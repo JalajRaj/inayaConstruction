@@ -246,3 +246,76 @@ function completeAdminProfile(obj){
 			}
 		});		
 }
+function fetchAllTransaction(){
+	$("#loadingdiv").show();
+	$.ajax({
+		type: 'POST',
+		data:'{"token":"' + localStorage.getItem("i_token") + '"}',
+		url: serverURL + "getAllTransactionResionWise",
+		success: function (response1) {
+			$(response1).each(function(i,obj){
+				var add = $(obj).attr('address') + ", Area: "+$(obj).attr('area');
+				var color="";
+				if("Delivered" == $(obj).attr('orderStatus')){
+					color = "background-color: lightgreen;";
+				}
+				if("OrderPlaced" == $(obj).attr('orderStatus')){
+					color = "background-color: yellow;";
+				}
+				if("In-Progress" == $(obj).attr('orderStatus')){
+					color = "background-color: lightskyblue;";
+				}
+				if("ItemNotAvailabel" == $(obj).attr('orderStatus') || "FakeOrder" == $(obj).attr('orderStatus')){
+					color = "background-color: lightcoral;";
+				}
+				if("CustomerNotReachable" == $(obj).attr('orderStatus')){
+					color = "background-color: lightcoral;";
+				}
+				if("DuplicateOrder" == $(obj).attr('orderStatus') || "CustomerCancelOrder" == $(obj).attr('orderStatus') ){
+					color = "background-color: lightpink;";
+				}
+				$("#displayTableDetails tbody").append('<tr><td style="'+color+'">'+(++i)+'</td><td style="'+color+'">'+$(obj).attr('orderid')+'</td><td style="'+color+'">'+$(obj).attr('userName')+'</td><td style="'+color+'">'+$(obj).attr('mobileNo')+'</td><td style="'+color+'">'+$(obj).attr('emailID')+'</td><td style="'+color+'">'+add+'</td><td style="'+color+'">'+$(obj).attr('addNotes')+'</td><td style="'+color+'">'+orderStatusSelect(i,$(obj).attr('orderid'))+'</td><td style="'+color+'">'+$(obj).attr('transDate')+'</td><td style="'+color+'"><input type="button" value="More" onclick="return showTransDetails(this)" data-val="'+$(obj).attr("orderDetails")+'" class="btn btn-primary"></td></tr>');
+				$("#order_"+i).val($(obj).attr('orderStatus'));
+			})
+			$("#loadingdiv").hide();
+		},
+		error: function (response) {
+			alert("Error while fetching Trans data");
+			checkErrorResp(response);
+		}
+	});
+}
+function orderStatusSelect(i,id){
+	var sel =  '<select id="order_'+i+'"><option value="OrderPlaced">OrderPlaced</option><option value="In-Progress">In-Progress</option><option value="Delivered">Delivered</option><option value="CustomerNotReachable">CustomerNotReachable</option><option value="FakeOrder">FakeOrder</option><option value="DuplicateOrder">DuplicateOrder</option><option value="CustomerCancelOrder">CustomerCancelOrder</option><option value="ItemNotAvailabel">ItemNotAvailabel</option></select>';
+	sel = sel + '<br><input type="button" class="btn btn-primary" value="Update Order Status" data-id="'+id+'" onclick="updateOrderStatus('+i+',this)" />';
+	return sel;
+}
+function updateOrderStatus(i,obj){
+	$(obj).attr('onclick', "");
+	$(obj).attr('value','Please Wait....');
+	var map = {};
+		map["status"] = $("#order_"+i).val();
+		map["id"] = $(obj).attr("data-id");
+		map["token"]=localStorage.getItem("i_token");
+	$.ajax({
+			type: 'POST',
+			data: JSON.stringify(map),
+			url: serverURL + "updateOrderStatus",
+			success: function (response) {	
+				alert(response);
+				location.reload();
+			},
+			error: function (response) {
+				alert("Error "+response);
+				checkErrorResp(response);
+				location.reload();
+			}
+		});		
+}
+function showTransDetails(obj){
+	$("#lodaingModal").modal('show');
+	$("#popcontent").html("<style type='text/css'>table {border-collapse: collapse;border-spacing: 0;width: 100%;border: 1px solid #ddd;}th, td {text-align: left;padding: 8px;}tr:nth-child(even){background-color: #f2f2f2}</style><div style='overflow-x:auto;'>"+$(obj).attr("data-val")+"</div>");	
+}
+function closePopup(){
+	$("#lodaingModal").modal('hide');
+}

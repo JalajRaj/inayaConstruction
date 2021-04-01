@@ -256,14 +256,16 @@ function fetchAllLocInfo(){
 		data:'{"token":"' + localStorage.getItem("i_token") + '"}',
 		url: serverURL + "fetchAllMasterConfigInfo",
 		success: function (response1) {
-			if($(response1).attr("item") == 'location'){
-				var obj3 = $(response1).attr('type');
-					if(obj3 != undefined){
-						$(obj3).each(function(k,obj4){
-							$("#area").append('<option value="'+obj4+'">'+obj4+'</option>');
-						})
-					}
-			}		
+			$(response1).each(function(i,obj){
+				if($(obj).attr("item") == 'location'){
+					var obj3 = $(obj).attr('type');
+						if(obj3 != undefined){
+							$(obj3).each(function(k,obj4){
+								$("#area").append('<option value="'+obj4+'">'+obj4+'</option>');
+							})
+						}
+				}	
+			});			
 		},
 		error: function (response) {
 			alert("Error while fetching LOC data");
@@ -280,7 +282,7 @@ function fetchAllAdminUser(){
 			$(response1).each(function(i,obj){
 				var name = $(obj).attr('userName') == null ? "(User not signin)" : $(obj).attr('userName');
 				var add = $(obj).attr('address') == null ? "(User not signin)" : $(obj).attr('address');
-				$("#displayTableDetails tbody").append('<tr><td>'+(++i)+'</td><td>'+name+'</td><td>'+$(obj).attr('mobileNo')+'</td><td>'+$(obj).attr('emailID')+'</td><td>'+$(obj).attr('area')+'</td><td>'+add+'</td></tr>');
+				$("#displayTableDetails tbody").append('<tr><td>'+(++i)+'</td><td>'+name+'</td><td>'+$(obj).attr('mobileNo')+'</td><td>'+$(obj).attr('emailID')+'</td><td>'+$(obj).attr('area')+'</td><td>'+add+'</td><td><input type="button" class="btn btn-primary" data-mobile="'+$(obj).attr('mobileNo')+'" value="Delete" onClick="return deleteAdmin(this)" /> </tr>');
 			})
 		},
 		error: function (response) {
@@ -288,6 +290,31 @@ function fetchAllAdminUser(){
 			checkErrorResp(response);
 		}
 	});
+}
+function deleteAdmin(obj){
+	if(confirm("Are you sure you want to delete this Admin User ?")){
+		$(obj).attr('onclick', "");
+		$(obj).html('Please Wait....<i class="fa fa-angle-right" aria-hidden="true"></i>');
+		var map = {};
+		map["mobileNo"] = $(obj).attr('data-mobile');
+		map["token"]=localStorage.getItem("i_token");
+		$.ajax({
+			type: 'POST',
+			url: serverURL + "deleteAdmin",
+			data: JSON.stringify(map),
+			success: function (response) {
+				alert(response);
+				location.reload();
+			},
+			error: function (response) {
+				alert("Error unable to deleting Admin User "+response);
+				checkErrorResp(response);
+				location.reload();
+			}
+		});
+	}
+return false;
+	
 }
 
 function fetchAllTransaction(){
@@ -299,7 +326,26 @@ function fetchAllTransaction(){
 		success: function (response1) {
 			$(response1).each(function(i,obj){
 				var add = $(obj).attr('address') + ", Area: "+$(obj).attr('area')
-				$("#displayTableDetails tbody").append('<tr><td>'+(++i)+'</td><td>'+$(obj).attr('orderid')+'</td><td>'+$(obj).attr('userName')+'</td><td>'+$(obj).attr('mobileNo')+'</td><td>'+$(obj).attr('emailID')+'</td><td>'+add+'</td><td>'+$(obj).attr('addNotes')+'</td><td>'+$(obj).attr('orderStatus')+'</td><td>'+$(obj).attr('transDate')+'</td><td><input type="button" value="More" onclick="return showTransDetails(this)" data-val="'+$(obj).attr("orderDetails")+'" class="btn btn-primary"></td></tr>');
+				var color="";
+				if("Delivered" == $(obj).attr('orderStatus')){
+					color = "background-color: lightgreen;";
+				}
+				if("OrderPlaced" == $(obj).attr('orderStatus')){
+					color = "background-color: yellow;";
+				}
+				if("In-Progress" == $(obj).attr('orderStatus')){
+					color = "background-color: lightskyblue;";
+				}
+				if("ItemNotAvailabel" == $(obj).attr('orderStatus') || "FakeOrder" == $(obj).attr('orderStatus')){
+					color = "background-color: lightcoral;";
+				}
+				if("CustomerNotReachable" == $(obj).attr('orderStatus')){
+					color = "background-color: lightcoral;";
+				}
+				if("DuplicateOrder" == $(obj).attr('orderStatus') || "CustomerCancelOrder" == $(obj).attr('orderStatus') ){
+					color = "background-color: lightpink;";
+				}
+				$("#displayTableDetails tbody").append('<tr><td style="'+color+'">'+(++i)+'</td><td style="'+color+'">'+$(obj).attr('orderid')+'</td><td style="'+color+'">'+$(obj).attr('userName')+'</td><td style="'+color+'">'+$(obj).attr('area')+'</td><td style="'+color+'">'+$(obj).attr('mobileNo')+'</td><td style="'+color+'">'+$(obj).attr('emailID')+'</td><td style="'+color+'">'+add+'</td><td style="'+color+'">'+$(obj).attr('addNotes')+'</td><td style="'+color+'">'+$(obj).attr('orderStatus')+'</td><td style="'+color+'">'+$(obj).attr('transDate')+'</td><td style="'+color+'"><input type="button" value="More" onclick="return showTransDetails(this)" data-val="'+$(obj).attr("orderDetails")+'" class="btn btn-primary"></td></tr>');
 			})
 			$("#loadingdiv").hide();
 		},
