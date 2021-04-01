@@ -316,6 +316,6 @@ function showTransDetails(obj){
 	$("#lodaingModal").modal('show');
 	$("#popcontent").html("<style type='text/css'>table {border-collapse: collapse;border-spacing: 0;width: 100%;border: 1px solid #ddd;}th, td {text-align: left;padding: 8px;}tr:nth-child(even){background-color: #f2f2f2}</style><div style='overflow-x:auto;'>"+$(obj).attr("data-val")+"</div>");	
 }
-function closePopup(){
+function closeAdminPopup(){
 	$("#lodaingModal").modal('hide');
 }
