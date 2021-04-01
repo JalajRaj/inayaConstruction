@@ -19,7 +19,7 @@ function initAdminEntryInfo(){
 					if($(obj1).attr('item') != 'location'){
 						$("#popupselect").append('<option value="'+$(obj1).attr('item')+'">'+$(obj1).attr('item')+'</option>')
 					}else if(localStorage.getItem("i_userType") == 'S'){
-						var obj3 = $(response).attr('type');
+						var obj3 = $(obj1).attr('type');
 						if(obj3 != undefined){
 							selectbox="<select id='area' onchange='return initRegionData()'>"
 							$(obj3).each(function(k,obj4){
