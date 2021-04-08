@@ -51,14 +51,14 @@ function checkLogin(obj){
 			}
 		});	
 }
+var locArea;
 function getAllLocation(){
 $.ajax({
 		type: 'POST',
 		url: serverURL + "getLocationDetails",
-		success: function (response1) {			
-			$(response1).each(function(k,obj4){
-				$("#area").append('<option value="'+obj4+'">'+obj4+'</option>');
-			});
+		success: function (choices) {	
+			locArea=choices;
+			intiAutoComplete("area",choices);
 		},
 		error: function (response) {
 			alert("Error while fetching LOC data");
@@ -74,6 +74,15 @@ function checkSignUpLogin(obj){
 		alert("Please enter valid username");
 		return false;
 	}
+	if($("#area").val() == ""){
+		alert("Please enter valid Current Area");
+		return false;
+	}
+	$("#area").val($("#area").val().toUpperCase());
+	if(locArea.indexOf($("#area").val()) == -1){
+		alert("Please select Current Area from dropdown only, Do not type any other Area");
+		return false;
+	}	
 	if($("#emailid").val() == ""){
 		alert("Please enter valid Email ID");
 		return false;
@@ -128,9 +137,9 @@ function initUserEntryData(){
 			type: 'POST',
 			url: serverURL + "getLocationDetails",
 			success: function (response) {	
-				$(response).each(function(i,obj){
-						$("#locationVal").append('<option value="'+obj+'">'+obj+'</option>')
-					});			
+				locArea=response;
+				$("#locationVal").val($(response)[0])	
+				intiAutoComplete("locationVal",response);					
 				getRatesValues("1");		
 			},
 			error: function (response) {
@@ -138,7 +147,16 @@ function initUserEntryData(){
 			}
 		});	
 }
+var lastLocationSend="";
 function getRatesValues(val){
+	
+	$("#locationVal").val($("#locationVal").val().toUpperCase());
+	if(locArea.indexOf($("#locationVal").val()) == -1){
+		alert("Please select Location from dropdown only, Do not type any other Location");
+		$("#locationVal").val(lastLocationSend);
+		return false;
+	}	
+	
 	$("#loadingdiv").show();
 	if(val != "1"){
 		alert("You can only add value in Cart from One location.\nBy changing location your Cart values will be removed.");
@@ -146,13 +164,16 @@ function getRatesValues(val){
 	}
 	localStorage.setItem("i_currcart",$("#locationVal").val());
 	var map={};
-	map["area"]=$("#locationVal").val();	
+	lastLocationSend = $("#locationVal").val();
+	map["area"]=$("#locationVal").val();
+	$("#displayTableDetails tbody").empty();	
 	$.ajax({
 			type: 'POST',
 			data:JSON.stringify(map),
 			url: serverURL + "getRegionWiseData",
-			success: function (response) {				
-				createUserRows(response);
+			success: function (response) {	
+				$("#recordDisplaylabal").html('Display Records for '+$("#locationVal").val()+' location.<br> Type here to filter records')
+				createUserRows(response,$("#locationVal").val());
 				$("#loadingdiv").hide();				
 			},
 			error: function (response) {
@@ -160,10 +181,12 @@ function getRatesValues(val){
 			}
 		});	
 }
-function createUserRows(response){
-	$("#displayTableDetails tbody").empty();
+function createUserRows(response,loc){
+	if(response.length == 0){
+		$("#displayTableDetails tbody").append("<tr><td colspan='8' style='color:red;text-align: center;'>Sorry! No Data available for <b>"+loc+"</b> location. Please try other location");	
+	}
 	$(response).each(function(i,obj){
-		var tr='<tr><td>'+(++i)+'</td><td>'+$(obj).attr('item')+'</td><td>'+$(obj).attr('type')+'</td><td>'+$(obj).attr('brand')+'</td><td>'+$(obj).attr('grade')+'</td><td>'+$(obj).attr('unit')+'</td><td>'+$(obj).attr('price')+' Rs.</td><td>'+$(obj).attr('shopName')+'</td><td><input type="button" onclick="return addToCart(this)" value="Add to Cart" data-val="'+$(obj).attr('id')+'"class="btn btn-primary" /></td></tr>';
+		var tr='<tr><td>'+(++i)+'</td><td>'+$(obj).attr('item')+'</td><td>'+$(obj).attr('type')+'</td><td>'+$(obj).attr('brand')+'</td><td>'+$(obj).attr('grade')+'</td><td>'+$(obj).attr('unit')+'</td><td>'+$(obj).attr('price')+' Rs.</td><td style="display:none;">'+$(obj).attr('shopName')+'</td><td><input type="button" onclick="return addToCart(this)" value="Add to Cart" data-val="'+$(obj).attr('id')+'"class="btn btn-primary" /></td></tr>';
 		$("#displayTableDetails tbody").append(tr);	
 	})
 }
@@ -209,4 +232,16 @@ function addToCart(obj){
 	localStorage.setItem("i_cart",JSON.stringify(map));	
 	alert("Product successfully added to Cart");
 	return false;
+}
+function initOfferNotes(){
+	$.ajax({
+		type: 'POST',
+		url: serverURL + "getofferNote",
+		success: function (response) {	
+			$("#offerNotes").html($(response)[0]);
+			$("#contactNotes").html($(response)[1]);				
+		},
+		error: function (response) {
+		}
+	});
 }

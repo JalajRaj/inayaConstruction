@@ -94,17 +94,27 @@ function checkFinalPriceBlur(obj){
 	checkFinalPrice(obj);
 }
 function checkFinalPrice(obj){
+	if (!validation.isNumber($(obj).val())) {
+		if("" != $(obj).val()){
+			alert("Please Enter valid Quantity");
+			$(obj).val(1);
+			return false;
+		}
+	}
+	
 	if(parseInt($(obj).val()) < 1){
 		$(obj).val("1");
 	}
-	var pric = parseInt($(obj).val()) * parseInt($(obj).attr("data-price"));
+	var pric = parseFloat($(obj).val()) * parseFloat($(obj).attr("data-price"));
+	pric = pric.toFixed(2);
 	$("#aprice_"+$(obj).attr("data-id")).html(pric + " Rs").attr('data-price',pric);
 	finalPrice();
 }
 function finalPrice(){
 	var finalPrice=0;
 	$(".priceSpan").each(function(){
-		finalPrice = parseInt(finalPrice) + parseInt($(this).attr('data-price'));		
+		finalPrice = parseFloat(finalPrice) + parseFloat($(this).attr('data-price'));	
+		finalPrice = finalPrice.toFixed(2);		
 	});
 	$("#finalPrice").html(finalPrice+" Rs");
 	$("#MRPfinalTotal").html(finalPrice+" Rs");
@@ -115,15 +125,15 @@ function applyCoupon(){
 	alert("Sorry! No coupan code found");
 	return false;
 }
+var locArea;
 function getAllLocation(){
 $.ajax({
 		type: 'POST',
 		data:'{"token":"' + localStorage.getItem("i_token") + '"}',
 		url: serverURL + "getLocationDetails",
-		success: function (response1) {			
-			$(response1).each(function(k,obj4){
-				$("#area").append('<option value="'+obj4+'">'+obj4+'</option>');
-			});
+		success: function (response1) {		
+			locArea=response1;
+			intiAutoComplete("area",response1);		
 		},
 		error: function (response) {
 			alert("Error while fetching LOC data");
@@ -147,6 +157,11 @@ function placeOrder(){
 		   $("#fname").focus();
 		   return false;
 	   	}
+	$("#area").val($("#area").val().toUpperCase());
+	if(locArea.indexOf($("#area").val()) == -1){
+		alert("Please select Location from dropdown only, Do not type any other Location");
+		return false;
+	}
 	 	if($("#pincode").val() == '' ){
 			alert("Please enter pincode.");
 			$("#pincode").focus()

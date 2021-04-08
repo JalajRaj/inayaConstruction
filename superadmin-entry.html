@@ -58,6 +58,19 @@ $('.example').dynamicMenu(); // ~= .input-group
 				</div>
 			</div>
 		</div>
+	</div>	
+	<div class="row border" style="padding-top:10px;padding-bottom:10px">
+		<div class="col-md-5">
+			    <label><b>Add Offer Note</b></label>
+				<input type="text" id="offerNotes" class="form-control">
+		</div>
+		<div class="col-md-5">
+			    <label><b>Contact Note</b></label>
+				<input type="text" id="contactNotes" class="form-control">
+		</div>
+		<div class="col-md-2" style="margin-top:30px">
+			     <input type="button" onclick="return saveNotesInfo(this)" value="Save Notes" class="btn btn-primary" />
+		</div>
   </div>
   <div class="row border" style="padding-top:10px;padding-bottom:10px">
  
@@ -98,6 +111,7 @@ $('.example').dynamicMenu(); // ~= .input-group
 <script src="js/config.js"></script>
 <script src="js/superadmin.js"></script>
 <script>
+initOfferNotes();
 initMasterConfig(); // ~= .input-group
 </script>
 </body>

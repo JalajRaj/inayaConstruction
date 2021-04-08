@@ -63,7 +63,7 @@
 								</div>
 								<div class="col-lg-9" id="contact" style="margin-top:10px;margin-bottom:10px;text-align:right;">
 									<label>Current Area</label>
-									<select id="area" class="form-control" style="display:inline;width:200px;"></select>
+									<input id="area" type="text" onClick="this.setSelectionRange(0, this.value.length)" name="q" class="form-control" style="display:inline;width:auto;" />
 								</div>
 								<div class="col-lg-9" id="contact" style="margin-top:10px;margin-bottom:10px;text-align:right;">
 									<label>Address</label>
@@ -103,8 +103,11 @@
 <script src="js/main.js"></script>
 <script src="js/config.js"></script>
 <script src="js/nologin.js"></script>
+<script src="js/auto-complete.min.js"></script>
+<script src="js/myutil.js"></script>
 <script>
-getAllLocation()
+getAllLocation();
+  
 </script>
 </body>
 </html>

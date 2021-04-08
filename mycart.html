@@ -128,7 +128,7 @@
 		            		<label for="country">Location *</label>
 		            		<div class="select-wrap">
 		                  <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-		                  <select name="" id="area" class="form-control"> </select>
+		                  <input id="area" type="text" onClick="this.setSelectionRange(0, this.value.length)" name="q" class="form-control" style="display:inline;width:auto;" />
 		                </div>
 		            	</div>
 		            </div>
@@ -215,6 +215,8 @@
 <script src="js/main.js"></script>
 <script src="js/config.js"></script>
 <script src="js/user.js"></script>
+<script src="js/auto-complete.min.js"></script>
+<script src="js/myutil.js"></script>
 <script>
 fetchmyCartDetails();
 getAllLocation();

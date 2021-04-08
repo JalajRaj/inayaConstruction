@@ -6,9 +6,11 @@ var validation = {
         return pattern.test(str);  // returns a boolean
     }
 };
+var locArea;
 function initAdminEntryInfo(){
 	$("#loadingdiv").show();
 	var selectbox = '';
+	
 	$.ajax({
 			type: 'POST',
 			data:'{"token":"' + localStorage.getItem("i_token") + '"}',
@@ -19,13 +21,9 @@ function initAdminEntryInfo(){
 					if($(obj1).attr('item') != 'location'){
 						$("#popupselect").append('<option value="'+$(obj1).attr('item')+'">'+$(obj1).attr('item')+'</option>')
 					}else if(localStorage.getItem("i_userType") == 'S'){
-						var obj3 = $(obj1).attr('type');
-						if(obj3 != undefined){
-							selectbox="<select id='area' onchange='return initRegionData()'>"
-							$(obj3).each(function(k,obj4){
-								selectbox = selectbox + '<option value="'+obj4+'">'+obj4+'</option>';
-							});
-							selectbox = selectbox + "</select>";
+						locArea = $(obj1).attr('type');
+						if(locArea != undefined){
+							selectbox='<input id="area" type="text" onchange="return initRegionData()" onClick="this.setSelectionRange(0, this.value.length)" name="q" class="form-control" style="display:inline;width:auto;" />';
 						}
 					}
 				});
@@ -34,7 +32,11 @@ function initAdminEntryInfo(){
 					areaInfo = selectbox;
 				}
 				$("#userDetails").html("Welcome <b>"+localStorage.getItem("i_username")+"</b>, Area <b>"+areaInfo+"</b>");	
-				initRegionData();				
+				if(selectbox != ''){	
+					intiAutoComplete("area",locArea);	
+					$("#area").val($(locArea)[0])	
+				}
+				initRegionData();					
 			},
 			error: function (response) {
 				alert("Error while updating data "+response);
@@ -51,6 +53,14 @@ function getArea(){
 	}	
 }
 function initRegionData(){
+	
+	$("#area").val($("#area").val().toUpperCase());
+	if(locArea.indexOf($("#area").val()) == -1){
+		alert("Please select Area from dropdown only, Do not type any other Area");
+		$("#area").val(lastLocationSend);
+		return false;
+	}	
+	
 	var map={};
 	map["area"]=getArea();
 	map["token"]=localStorage.getItem("i_token");	
@@ -153,7 +163,7 @@ function saveRowVal(obj){
 	map["price"]=par.eq(6).find('input').val();
 	map["shopName"]=par.eq(7).find('input').val();
 	map["token"]=localStorage.getItem("i_token");
-	if (!validation.isNumber(map['price'])) {
+	if (!validation.isDecimal(map['price'])) {
 		alert("Please Enter valid Price");
 		return false;
 	}

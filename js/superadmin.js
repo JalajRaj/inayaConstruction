@@ -177,7 +177,7 @@ function saveRowVal(obj){
 		});
 	}
 }
-	
+
 function initMasterConfig(){
 	$("#loadingdiv").show();
 	$.ajax({
@@ -221,6 +221,16 @@ function createAdminUser(obj){
 		alert("Please enter valid Mobile No");
 		return false;
 	}
+	if($("#area").val() == ""){
+		alert("Please enter valid Area");
+		return false;
+	}
+	$("#area").val($("#area").val().toUpperCase());
+	if(locArea.indexOf($("#area").val()) == -1){
+		alert("Please select Area from dropdown only, Do not type any other Area");
+		$("#area").val(lastLocationSend);
+		return false;
+	}	
 	if($("#emailid").val() == ""){
 		alert("Please enter valid Email ID");
 		return false;
@@ -250,6 +260,7 @@ function createAdminUser(obj){
 	}
 return false;	
 }
+var locArea;
 function fetchAllLocInfo(){
 	$.ajax({
 		type: 'POST',
@@ -260,9 +271,8 @@ function fetchAllLocInfo(){
 				if($(obj).attr("item") == 'location'){
 					var obj3 = $(obj).attr('type');
 						if(obj3 != undefined){
-							$(obj3).each(function(k,obj4){
-								$("#area").append('<option value="'+obj4+'">'+obj4+'</option>');
-							})
+							intiAutoComplete("area",obj3);	
+							locArea=obj3;
 						}
 				}	
 			});			
@@ -362,4 +372,40 @@ function showTransDetails(obj){
 }
 function closePopup(){
 	$("#lodaingModal").modal('hide');
+}
+function saveNotesInfo(obj){
+	$(obj).attr('value', "Please wait..");
+	$(obj).attr('disabled',true);
+	var map = {};
+	map["omsg"] = $("#offerNotes").val();
+	map["smsg"] = $("#contactNotes").val();
+	map["token"]=localStorage.getItem("i_token");
+	$.ajax({
+		type: 'POST',
+		url: serverURL + "updateNotes",
+		data: JSON.stringify(map),
+		success: function (response) {
+			alert(response);
+			$(obj).attr('value', "Save Notes");
+			$(obj).attr('disabled',false);
+		},
+		error: function (response) {
+			alert("Error unable to deleting Admin User "+response);
+			checkErrorResp(response);
+			
+		}
+	});	
+return false;
+}
+function initOfferNotes(){
+	$.ajax({
+		type: 'POST',
+		url: serverURL.substr(0,60)+"C/C/getofferNote",
+		success: function (response) {	
+			$("#offerNotes").val($(response)[0]);
+			$("#contactNotes").val($(response)[1]);				
+		},
+		error: function (response) {
+		}
+	});
 }

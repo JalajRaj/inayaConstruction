@@ -129,3 +129,17 @@ function initTableAttr(){
 			return false;
 		});
 }
+function intiAutoComplete(id,choices){
+	new autoComplete({
+				selector: '#'+id,
+				minChars: 0,
+				source: function(term, suggest){
+					term = term.toLowerCase();
+					var suggestions = [];
+					for (i=0;i<choices.length;i++)
+						if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);
+					suggest(suggestions);
+				}
+			});
+	
+}
