@@ -816,3 +816,36 @@ body {
 .autocomplete-suggestion { position: relative; padding: 0 .6em; line-height: 23px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1.02em; color: #333; }
 .autocomplete-suggestion b { font-weight: normal; color: #1f8dd6; }
 .autocomplete-suggestion.selected { background: #f0f0f0; }
+
+
+.offerNotes p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: offerNotes 40s linear infinite;
+}
+@keyframes offerNotes {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(-100%, 0); }
+}
+
+
+.offerNotesDetails {
+ line-height: 50px;
+ color: white;
+ white-space: nowrap;
+ overflow: hidden;
+ box-sizing: border-box;
+ font-size: 20px;
+ font-weight: 800;
+ color: Red;
+ font-family: sans-serif;
+}
+.offerNotesDetails p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: offerNotesDetails 20s linear infinite;
+}
+@keyframes offerNotesDetails {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(-100%, 0); }
+}
