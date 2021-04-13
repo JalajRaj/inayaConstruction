@@ -20,16 +20,40 @@
 
     </style>
 </head>
-<body>
+<body style="background-color:#fcfcfc">
 <div id="topHeadersection"></div>
 
 <div class="container">
+<div class="offerNotesDetails" id="offerNotes" ></div>
+			<div class="offerNotesDetails" id="contactNotes" style="width:100%"></div>
   <div class="row border" style="padding-top:10px;padding-bottom:10px">
+			
+			
+            <div class="w3-content w3-display-container">
+               
+                <img class="mySlides" src="images/30.jpg">
+				<img class="mySlides" src="images/35.jpg">
+				<img class="mySlides" src="images/29.jpg">
+                <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle"
+                    style="width:100%">
+                    <div class="w3-left w3-hover-text-khaki" onclick="plusImage(-1)" style="padding-left: 10px;">
+                        <span class="wm-banner-btn w3-custom">&#10094;</span>
+                    </div>
+                    <div class="w3-right w3-hover-text-khaki" onclick="plusImage(1)" style="padding-right: 10px;">
+                        <span class="wm-banner-btn w3-custom">&#10095;</span>
+                    </div>
+                    <span class="w3-badge dot w3-border w3-transparent w3-hover-white" onclick="slidePosition(1)"></span>
+                    <span class="w3-badge dot w3-border w3-transparent w3-hover-white" onclick="slidePosition(2)"></span>
+                    <span class="w3-badge dot w3-border w3-transparent w3-hover-white" onclick="slidePosition(3)"></span>
+                    <span class="w3-badge dot w3-border w3-transparent w3-hover-white" onclick="slidePosition(4)"></span>
+                    <span class="w3-badge dot w3-border w3-transparent w3-hover-white" onclick="slidePosition(5)"></span>
+                </div>
+            </div>
+        </div>
+
 			<div class="row text-center" style="display: block;width: 100%;">
 				<img src="images/ourproducts.png" style="max-width:100%">
 			</div>
-			<div class="offerNotesDetails" id="offerNotes" ></div>
-			<div class="offerNotesDetails" id="contactNotes" style="width:100%"></div>
 			
 
   <div class="col-md-12" style="margin-bottom:30px;">
@@ -43,7 +67,7 @@
 		 </div>
   </div>
 	<div class="col-md-12">
-	<span id="recordDisplaylabal"></span>&nbsp;&nbsp;<input id="Search" placeholder="Type to filter records"  type="text" required>
+	<span id="recordDisplaylabal" style="float:left;margin-right:10px"></span><input style="float:left" id="Search" placeholder="Type to filter records"  type="text" required>
 		  <table id="displayTableDetails"
 				class="table table-striped table-bordered table-hover">
 				<thead>
@@ -81,7 +105,125 @@
 		</div>
 	</div>
 
-	<div class="container-fluid gtco-features" id="about">
+	
+	<div class="container-fluid gtco-feature" id="services">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="cover">
+                    <div class="card">
+                        <svg
+                                class="back-bg"
+                                width="100%" viewBox="0 0 900 700" style="position:absolute; z-index: -1">
+                            <defs>
+                                <linearGradient id="PSgrad_01" x1="64.279%" x2="0%" y1="76.604%" y2="0%">
+                                    <stop offset="0%" stop-color="rgb(1,230,248)" stop-opacity="1"/>
+                                    <stop offset="100%" stop-color="rgb(29,62,222)" stop-opacity="1"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill-rule="evenodd" opacity="0.102" fill="url(#PSgrad_01)"
+                                  d="M616.656,2.494 L89.351,98.948 C19.867,111.658 -16.508,176.639 7.408,240.130 L122.755,546.348 C141.761,596.806 203.597,623.407 259.843,609.597 L697.535,502.126 C748.221,489.680 783.967,441.432 777.751,392.742 L739.837,95.775 C732.096,35.145 677.715,-8.675 616.656,2.494 Z"/>
+                        </svg>
+                        <!-- *************-->
+
+                        <svg width="100%" viewBox="0 0 700 500">
+                            <clipPath id="clip-path">
+                                <path d="M89.479,0.180 L512.635,25.932 C568.395,29.326 603.115,76.927 590.357,129.078 L528.827,380.603 C518.688,422.048 472.661,448.814 427.190,443.300 L73.350,400.391 C32.374,395.422 -0.267,360.907 -0.002,322.064 L1.609,85.154 C1.938,36.786 40.481,-2.801 89.479,0.180 Z"></path>
+                            </clipPath>
+                            <!-- xlink:href for modern browsers, src for IE8- -->
+                            <image clip-path="url(#clip-path)" xlink:href="images/Owner.jpg" width="100%"
+                                   height="465" class="svg__image"></image>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <h2> About Me</h2>
+                <p>My name is Madhusudhan, I have started Inaya Construction in 2021.</p>
+                <p>
+                    <small>Inaya construction provides a complete solutions regarding to building material. 
+					Our motive is not making money; we like to offer best choice of material to merchant with best price.
+                    </small>
+					<small>
+					He preached simple but valuable philosophy of Life. He worked very hard to educate his children and taught ethical values to them.
+					</small>					
+                </p>
+				<p>
+				He worked tirelessly and dedicated his whole life for the development and upliftment of the poor. He was always eager to provide students with educational facilities.
+				His dedicated and hard working life became a source of inspiration for our Hon. Chairman in establishing the Sanstha.
+				</p>
+                
+			</div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid gtco-news" id="news">
+    <div class="container">
+        <h2>Our Products</h2>
+        <div class="owl-carousel owl-carousel2 owl-theme">
+            <div>
+                <div class="card text-center"><img class="card-img-top" src="images/1.jpg" alt="">
+                    <div class="card-body text-left pr-0 pl-0">
+                        <h5>Complete Package for Home Construction</h5>
+                        <p class="card-text">We provide complete package for Building, Homes, Bridges etc.
+						We Offer Sand, Foundation Block, Bricks, Gravel, Paint, Cement, Styrofam, Concrecte Block, Alabaster etc and many more</p>
+                        </div>
+                </div>
+            </div>
+            <div>
+                <div class="card text-center"><img class="card-img-top" src="images/2.jpg" alt="">
+                    <div class="card-body text-left pr-0 pl-0">
+                        <h5>Foundation Block, Concrecte Block, Bricks </h5>
+                        <p class="card-text">We provide best quality of Block and Bricks. A brick is a type of block used to build walls, pavements and other elements in masonry construction. Properly, the term brick denotes a block composed of dried clay.</p>
+                        </div>
+                </div>
+            </div>
+            <div>
+                <div class="card text-center"><img class="card-img-top" src="images/3.jpg" alt="">
+                    <div class="card-body text-left pr-0 pl-0">
+                        <h5>Plinth Beam Bar</h5>
+                        <p class="card-text">As in the image you see the size of the plinth beam is around 9 by 9 inch but i recommend you to have 9 by 12 to 9 inch by 15 inch but below the support been given so no necessary for it and one thing i want to say you is about the tough ness and the quality of the steel used here</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="card text-center"><img class="card-img-top" src="images/4.jpg" alt="">
+                    <div class="card-body text-left pr-0 pl-0">
+                        <h5>Rod binding for Beam</h5>
+                        <p class="card-text">As rod bending work is not visible outside(after RCC is done) and involves some technical know-how to verify the work, builders/individuals don't put much emphasis to cross-check the work done by rod bending workers. </p>
+					 </div>	
+                </div>
+            </div>
+            <div>
+                <div class="card text-center"><img class="card-img-top" src="images/5.jpg" alt="">
+                    <div class="card-body text-left pr-0 pl-0">
+                        <h5>Pillars Beam</h5>
+                        <p class="card-text">M S Steel bars diameter and its spacing in the RCC slab is calculated by designing the slab according to load and span of the slab. In general 12mm, 10mm and 8mm diameter MS steel bars are used in RCC slab according to the length of span of the slab and similarly spacing is from 4.5’’ to 6’’ inch</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="card text-center"><img class="card-img-top" src="images/6.jpg" alt="">
+                    <div class="card-body text-left pr-0 pl-0">
+                        <h5>Metal Flooring</h5>
+                        <p class="card-text">we are the manufacturer and supplier of METAL SHEETS, ild steel is a type of carbon steel that contains a low level of carbon. Otherwise known as low carbon steel, mild steel contains roughly between 0.05% and 0.25% of carbon by weight</p>
+                    </div>
+                </div>
+            </div>
+			<div>
+                <div class="card text-center"><img class="card-img-top" src="images/7.jpg" alt="">
+                    <div class="card-body text-left pr-0 pl-0">
+                        <h5>Marbles</h5>
+                        <p class="card-text">We have different types of Marble for Kitchen and Bathroom Countertops.Marble is also available in a variety of grains and veining patterns that makes each type of marble distinct. It is not always obvious to most people.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid gtco-features" id="about">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4">
@@ -145,27 +287,7 @@
 		</div>
 	</div>
 
-
-	<div class="container-fluid gtco-testimonials">
-		<div class="container">
-			<h2>About us.</h2>
-			<div class="owl-carousel owl-carousel1 owl-theme">
-				<div>
-					<div class="card text-center"><img class="card-img-top" src="images/Owner.jpg" alt="">
-						<div class="card-body">
-							<h5>Madhusudhan <br/>
-								<span> Inaya construction provides a complete solutions regarding to building material. </span></h5>
-							<p class="card-text">“ Our motive is not making money; we like to offer best choice of material to merchant with best price.” </p>
-						</div>
-					</div>
-				</div>
-				
-			   
-			</div>
-		</div>
-	</div>
-
-<div id="footersection"></div>
+<div id="footersection" style="background-color:#F5F5F5"></div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -180,6 +302,7 @@
 <script src="js/auto-complete.min.js"></script>
 <script src="js/myutil.js"></script>
 <script>
+showSlides();
 initOfferNotes();
 initUserEntryData();
 initTableAttr();

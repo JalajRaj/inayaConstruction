@@ -172,7 +172,7 @@ function getRatesValues(val){
 			data:JSON.stringify(map),
 			url: serverURL + "getRegionWiseData",
 			success: function (response) {	
-				$("#recordDisplaylabal").html('Display Records for '+$("#locationVal").val()+' location.<br> Type here to filter records')
+				$("#recordDisplaylabal").html('Display Records for '+$("#locationVal").val()+' location.Type here to filter records')
 				createUserRows(response,$("#locationVal").val());
 				$("#loadingdiv").hide();				
 			},
@@ -238,8 +238,8 @@ function initOfferNotes(){
 		type: 'POST',
 		url: serverURL + "getofferNote",
 		success: function (response) {	
-			$("#offerNotes").html($(response)[0]);
-			$("#contactNotes").html($(response)[1]);				
+			$("#offerNotes").html("<p>"+$(response)[0]+"</<p>");
+			$("#contactNotes").html("<p>"+$(response)[1]+"</p>");				
 		},
 		error: function (response) {
 		}
