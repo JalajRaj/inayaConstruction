@@ -1,5 +1,6 @@
 serverURL = serverURL + "A/"+localStorage.getItem("i_userType")+"/";
 var masterResp;
+var lastLocationSend="";
 var validation = {
     isNumber:function(str) {
         var pattern = /^\d+$/;
@@ -62,6 +63,7 @@ function initRegionData(){
 	}	
 	
 	var map={};
+	lastLocationSend = getArea();
 	map["area"]=getArea();
 	map["token"]=localStorage.getItem("i_token");	
 	$.ajax({

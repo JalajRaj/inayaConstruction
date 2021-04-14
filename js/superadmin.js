@@ -215,7 +215,7 @@ function initMasterConfig(){
 	});	
 }
 
-
+var lastLocationSend="";
 function createAdminUser(obj){
 	if($("#mobileNo").val() == "" || $("#mobileNo").val().length !=10){
 		alert("Please enter valid Mobile No");
@@ -238,6 +238,7 @@ function createAdminUser(obj){
 	if(confirm("Are you sure you want to create new Admin User ?")){
 		$(obj).attr('onclick', "");
 		$(obj).html('Please Wait....<i class="fa fa-angle-right" aria-hidden="true"></i>');
+		lastLocationSend=$("#area").val();
 		var map = {};
 		map["mobileNo"] = $("#mobileNo").val();
 		map["area"] = $("#area").val();
