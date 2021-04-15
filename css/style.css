@@ -658,9 +658,7 @@ body {
   width: 100%;
 }
 @media (max-width: 600px) {
-  .gtco-news .owl-carousel .owl-nav {
-    display: none !important;
-  }
+  
 }
 .gtco-news .owl-carousel .owl-nav .owl-prev, .gtco-news .owl-carousel .owl-nav .owl-next {
   font-size: 120px;
@@ -668,10 +666,10 @@ body {
   position: absolute;
 }
 .gtco-news .owl-carousel .owl-nav .owl-prev {
-  left: -50px;
+  left: -30px;
 }
 .gtco-news .owl-carousel .owl-nav .owl-next {
-  right: -50px;
+  right: -30px;
 }
 .gtco-news .owl-carousel .card {
   padding: 0 25px;
