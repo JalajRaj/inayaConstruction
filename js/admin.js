@@ -50,17 +50,19 @@ function getArea(){
 	if($("#area").val() == undefined){
 		return localStorage.getItem("i_area");
 	}else{
-		$("#area").val($("#area").val().toUpperCase());
 		return $("#area").val();
 	}	
 }
-function initRegionData(){	
+function initRegionData(){
 	
-	if(locArea.indexOf($("#area").val()) == -1){
-		alert("Please select Area from dropdown only, Do not type any other Area");
-		$("#area").val(lastLocationSend);
-		return false;
-	}	
+	if($("#area").val() != undefined){
+		$("#area").val($("#area").val().toUpperCase());
+		if(locArea.indexOf($("#area").val()) == -1){
+			alert("Please select Area from dropdown only, Do not type any other Area");
+			$("#area").val(lastLocationSend);
+			return false;
+		}	
+	}
 	
 	var map={};
 	lastLocationSend = getArea();
