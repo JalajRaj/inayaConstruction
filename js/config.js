@@ -54,7 +54,7 @@ var header = "";
 if(localStorage.getItem('i_username') == null){
 	header = '<nav class="navbar navbar-expand-lg navbar-light bg-light bg-transparent" id="gtco-main-nav" >'+
 			'<div class="container"><a class="navbar-brand">inaya Construction</a>'+
-				'<button class="navbar-toggler" data-target="#my-nav" onclick="myFunction(this)" data-toggle="collapse"><span'+
+				'<button class="navbar-toggler" data-target="#my-nav" onclick="myFunction(this)" data-toggle="collapse" style="background-color: #01e6f8;"><span '+
 						'class="bar1"></span> <span class="bar2"></span> <span class="bar3"></span></button>'+
 				'<div id="my-nav" class="collapse navbar-collapse" style="flex-basis: inherit;flex-grow: inherit;">'+
 					'<form class="form-inline my-2 my-lg-0">'+
@@ -71,7 +71,7 @@ if(localStorage.getItem('i_username') == null){
 	if(localStorage.getItem('i_userType') == 'S'){		
 		header = '<nav class="navbar navbar-expand-lg navbar-light bg-light bg-transparent" id="gtco-main-nav">'+
 			'<div class="container"><a class="navbar-brand">inaya Construction</a>'+
-				'<button class="navbar-toggler" data-target="#my-nav" onclick="myFunction(this)" data-toggle="collapse"><span'+
+				'<button class="navbar-toggler" data-target="#my-nav" onclick="myFunction(this)" data-toggle="collapse" style="background-color: #01e6f8;"><span '+
 						'class="bar1"></span> <span class="bar2"></span> <span class="bar3"></span></button>'+
 				'<div id="my-nav" class="collapse navbar-collapse">'+
 					'<ul class="navbar-nav mr-auto">'+
@@ -91,7 +91,7 @@ if(localStorage.getItem('i_username') == null){
 	if(localStorage.getItem('i_userType') == 'A'){		
 		header = '<nav class="navbar navbar-expand-lg navbar-light bg-light bg-transparent" id="gtco-main-nav">'+
 			'<div class="container"><a class="navbar-brand">inaya Construction</a>'+
-				'<button class="navbar-toggler" data-target="#my-nav" onclick="myFunction(this)" data-toggle="collapse"><span'+
+				'<button class="navbar-toggler" data-target="#my-nav" onclick="myFunction(this)" data-toggle="collapse" style="background-color: #01e6f8;"><span '+
 						'class="bar1"></span> <span class="bar2"></span> <span class="bar3"></span></button>'+
 				'<div id="my-nav" class="collapse navbar-collapse">'+
 					'<ul class="navbar-nav mr-auto">'+
@@ -109,7 +109,7 @@ if(localStorage.getItem('i_username') == null){
 	if(localStorage.getItem('i_userType') == 'U'){		
 		header = '<nav class="navbar navbar-expand-lg navbar-light bg-light bg-transparent" id="gtco-main-nav">'+
 			'<div class="container"><a class="navbar-brand">inaya Construction</a>'+
-				'<button class="navbar-toggler" data-target="#my-nav" onclick="myFunction(this)" data-toggle="collapse"><span'+
+				'<button class="navbar-toggler" data-target="#my-nav" onclick="myFunction(this)" data-toggle="collapse" style="background-color: #01e6f8;"><span '+
 						'class="bar1"></span> <span class="bar2"></span> <span class="bar3"></span></button>'+
 				'<div id="my-nav" class="collapse navbar-collapse">'+
 					'<ul class="navbar-nav mr-auto">'+
