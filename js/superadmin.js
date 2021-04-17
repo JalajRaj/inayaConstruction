@@ -293,7 +293,7 @@ function fetchAllAdminUser(){
 			$(response1).each(function(i,obj){
 				var name = $(obj).attr('userName') == null ? "(User not signin)" : $(obj).attr('userName');
 				var add = $(obj).attr('address') == null ? "(User not signin)" : $(obj).attr('address');
-				$("#displayTableDetails tbody").append('<tr><td>'+(++i)+'</td><td>'+name+'</td><td>'+$(obj).attr('mobileNo')+'</td><td>'+$(obj).attr('emailID')+'</td><td>'+$(obj).attr('area')+'</td><td>'+add+'</td><td><input type="button" class="btn btn-primary" data-mobile="'+$(obj).attr('mobileNo')+'" value="Delete" onClick="return deleteAdmin(this)" /> </tr>');
+				$("#displayTableDetails tbody").append('<tr><td data-type="number">'+(++i)+'</td><td>'+name+'</td><td>'+$(obj).attr('mobileNo')+'</td><td>'+$(obj).attr('emailID')+'</td><td>'+$(obj).attr('area')+'</td><td>'+add+'</td><td><input type="button" class="btn btn-primary" data-mobile="'+$(obj).attr('mobileNo')+'" value="Delete" onClick="return deleteAdmin(this)" /> </tr>');
 			})
 		},
 		error: function (response) {
@@ -356,7 +356,16 @@ function fetchAllTransaction(){
 				if("DuplicateOrder" == $(obj).attr('orderStatus') || "CustomerCancelOrder" == $(obj).attr('orderStatus') ){
 					color = "background-color: lightpink;";
 				}
-				$("#displayTableDetails tbody").append('<tr><td style="'+color+'">'+(++i)+'</td><td style="'+color+'">'+$(obj).attr('orderid')+'</td><td style="'+color+'">'+$(obj).attr('userName')+'</td><td style="'+color+'">'+$(obj).attr('area')+'</td><td style="'+color+'">'+$(obj).attr('mobileNo')+'</td><td style="'+color+'">'+$(obj).attr('emailID')+'</td><td style="'+color+'">'+add+'</td><td style="'+color+'">'+$(obj).attr('addNotes')+'</td><td style="'+color+'">'+$(obj).attr('orderStatus')+'</td><td style="'+color+'">'+$(obj).attr('transDate')+'</td><td style="'+color+'"><input type="button" value="More" onclick="return showTransDetails(this)" data-val="'+$(obj).attr("orderDetails")+'" class="btn btn-primary"></td></tr>');
+				var ordStatus=$(obj).attr('addNotes');
+				if($(obj).attr('addNotes') == null){
+					ordStatus="";
+				}
+				var emailid=$(obj).attr('emailID');
+				if(emailid == null){
+					emailid="";
+				}
+				$("#displayTableDetails tbody").append('<tr><td style="'+color+'" data-type="number">'+(++i)+'</td><td style="'+color+'">'+$(obj).attr('orderid')+'<br>'+$(obj).attr('userName')+'</td><td style="'+color+'">'+$(obj).attr('area')+'</td><td style="'+color+'">'+$(obj).attr('mobileNo')+'<br>'+emailid+'</td><td style="'+color+'">'+add+'</td><td style="'+color+'">'+ordStatus+'</td><td style="'+color+'">'+orderStatusSelect(i,$(obj).attr('orderid'))+'</td><td style="'+color+'">'+$(obj).attr('transDate')+'</td><td style="'+color+'"><input type="button" value="More" onclick="return showTransDetails(this)" data-val="'+$(obj).attr("orderDetails")+'" class="btn btn-primary"></td></tr>');
+				$("#order_"+i).val($(obj).attr('orderStatus'));
 			})
 			$("#loadingdiv").hide();
 		},
@@ -366,7 +375,33 @@ function fetchAllTransaction(){
 		}
 	});
 }
-
+function orderStatusSelect(i,id){
+	var sel =  '<select id="order_'+i+'" style="width:130px"><option value="OrderPlaced">OrderPlaced</option><option value="In-Progress">In-Progress</option><option value="Delivered">Delivered</option><option value="CustomerNotReachable">CustomerNotReachable</option><option value="FakeOrder">FakeOrder</option><option value="DuplicateOrder">DuplicateOrder</option><option value="CustomerCancelOrder">CustomerCancelOrder</option><option value="ItemNotAvailabel">ItemNotAvailabel</option></select>';
+	sel = sel + '<br><input type="button" class="btn btn-primary" value="Update Order" data-id="'+id+'" onclick="updateOrderStatus('+i+',this)" />';
+	return sel;
+}
+function updateOrderStatus(i,obj){
+	$(obj).attr('onclick', "");
+	$(obj).attr('value','Please Wait....');
+	var map = {};
+		map["status"] = $("#order_"+i).val();
+		map["id"] = $(obj).attr("data-id");
+		map["token"]=localStorage.getItem("i_token");
+	$.ajax({
+			type: 'POST',
+			data: JSON.stringify(map),
+			url: serverURL.substr(0,60)+"A/S/updateOrderStatus",
+			success: function (response) {	
+				alert(response);
+				location.reload();
+			},
+			error: function (response) {
+				alert("Error "+response);
+				checkErrorResp(response);
+				location.reload();
+			}
+		});		
+}
 function showTransDetails(obj){
 	$("#lodaingModal").modal('show');
 	$("#popcontent").html("<style type='text/css'>table {border-collapse: collapse;border-spacing: 0;width: 100%;border: 1px solid #ddd;}th, td {text-align: left;padding: 8px;}tr:nth-child(even){background-color: #f2f2f2}</style><div style='overflow-x:auto;'>"+$(obj).attr("data-val")+"</div>");	

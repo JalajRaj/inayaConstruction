@@ -82,14 +82,6 @@ function checkSignUpLogin(obj){
 	if(locArea.indexOf($("#area").val()) == -1){
 		alert("Please select Current Area from dropdown only, Do not type any other Area");
 		return false;
-	}	
-	if($("#emailid").val() == ""){
-		alert("Please enter valid Email ID");
-		return false;
-	}
-	if($("#address").val() == ""){
-		alert("Please enter valid Address");
-		return false;
 	}
 	if($("#pass").val() == ""){
 		alert("Please enter valid Password");
@@ -106,12 +98,12 @@ function checkSignUpLogin(obj){
 	$(obj).attr('onclick', "");
 	$(obj).html('Please Wait....<i class="fa fa-angle-right" aria-hidden="true"></i>');
 	var map = {};
-		map["mobileNo"] = $("#mobileNo").val();
-		map["username"] = $("#username").val();
-		map["emailid"] = $("#emailid").val();
-		map["address"] = $("#address").val();
-		map["pass"] = $("#pass").val();
-		map["area"] = $("#area").val();
+		map["mobileNo"] = $("#mobileNo").val().trim();
+		map["username"] = $("#username").val().trim();
+		map["emailid"] = $("#emailid").val().trim();
+		map["address"] = $("#address").val().trim();
+		map["pass"] = $("#pass").val().trim();
+		map["area"] = $("#area").val().trim();
 	$.ajax({
 			type: 'POST',
 			data: JSON.stringify(map),
@@ -186,7 +178,7 @@ function createUserRows(response,loc){
 		$("#displayTableDetails tbody").append("<tr><td colspan='8' style='color:red;text-align: center;'>Sorry! No Data available for <b>"+loc+"</b> location. Please try other location");	
 	}
 	$(response).each(function(i,obj){
-		var tr='<tr><td>'+(++i)+'</td><td>'+$(obj).attr('item')+'</td><td>'+$(obj).attr('type')+'</td><td>'+$(obj).attr('brand')+'</td><td>'+$(obj).attr('grade')+'</td><td>'+$(obj).attr('unit')+'</td><td>'+$(obj).attr('price')+' Rs.</td><td style="display:none;">'+$(obj).attr('shopName')+'</td><td><input type="button" onclick="return addToCart(this)" value="Add to Cart" data-val="'+$(obj).attr('id')+'"class="btn btn-primary" /></td></tr>';
+		var tr='<tr><td data-type="number" >'+(++i)+'</td><td>'+$(obj).attr('item')+'</td><td>'+$(obj).attr('type')+'</td><td>'+$(obj).attr('brand')+'</td><td>'+$(obj).attr('grade')+'</td><td>'+$(obj).attr('unit')+'</td><td>'+$(obj).attr('price')+' Rs.</td><td style="display:none;">'+$(obj).attr('shopName')+'</td><td><input type="button" onclick="return addToCart(this)" value="Add to Cart" data-val="'+$(obj).attr('id')+'"class="btn btn-primary" /></td></tr>';
 		$("#displayTableDetails tbody").append(tr);	
 	})
 }

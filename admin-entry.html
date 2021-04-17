@@ -15,22 +15,8 @@
     <!-- custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 	<style>
-	
-
-$('.example').dynamicMenu(); // ~= .input-group
-.dropdown-menu li {
-  position: relative;
-}
-
-.dropdown-menu li span.rem {
-  position: absolute;
-  color: gray;
-  cursor: pointer;
-  right: 1em;
-}
-
-.dropdown-menu li span.rem:after {
-  content: '\00D7';
+select{
+	width: 132px;
 }
 	</style>
     <title>inaya Construction</title>
@@ -51,7 +37,7 @@ $('.example').dynamicMenu(); // ~= .input-group
   <input type="button" onclick="return createNewItem()" value="Create New Item" class="btn btn-primary" />
   <br><br>
   </div>
-	<div class="col-md-12">
+	<div class="col-md-12" style="overflow:auto">
 		  <table id="displayTableDetails"
 				class="table table-striped table-bordered table-hover">
 				<thead>

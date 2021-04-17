@@ -66,7 +66,7 @@ function fetchmyCartDetails(){
 function createUserRows(response){
 	$("#displayTableDetails tbody").empty();
 	$(response).each(function(i,obj){
-		var tr='<tr><td>'+(++i)+'</td><td>'+$(obj).attr('item')+'</td><td>'+$(obj).attr('type')+'</td><td>'+$(obj).attr('brand')+'</td>';
+		var tr='<tr><td data-type="number">'+(++i)+'</td><td>'+$(obj).attr('item')+'</td><td>'+$(obj).attr('type')+'</td><td>'+$(obj).attr('brand')+'</td>';
 		tr = tr + '<td>'+$(obj).attr('grade')+'</td><td>'+$(obj).attr('unit')+'</td><td>'+$(obj).attr('price')+' Rs.</td><td>'+$(obj).attr('shopName')+'</td>';
 		tr = tr+'<td><input type="number" class="cardQty" data-key="'+$(obj).attr('id')+'" style="width:80px" data-id="'+i+'" data-price="'+$(obj).attr('price')+'" onblur="checkFinalPriceBlur(this)" onchange="checkFinalPrice(this)" onkeyup="checkFinalPrice(this)"  value="1" id="qty"></td><td><span class="priceSpan" data-price="'+$(obj).attr('price')+'" id="aprice_'+i+'">'+$(obj).attr('price')+' Rs</span></td><td><input type="button" onclick="return removeToCart(this)" value="Remove" data-val="'+$(obj).attr('id')+'"class="btn btn-primary" /></td></tr>';
 		$("#displayTableDetails tbody").append(tr);	
@@ -149,7 +149,8 @@ $.ajax({
 }
 function placeOrder(){
 	if(finalPrice() == 0){
-		alert("Please add some items in cart before placing order.");
+		alert("Your Cart is Empty.\nPlease add some items in cart before placing order.");
+		location.href="index.html";
 		return false;
 	}
 	if($("#fname").val() == '' ){
@@ -162,31 +163,23 @@ function placeOrder(){
 		alert("Please select Location from dropdown only, Do not type any other Location");
 		return false;
 	}
-	 	if($("#pincode").val() == '' ){
-			alert("Please enter pincode.");
-			$("#pincode").focus()
-		   return false;
-	   	}
-		if($("#address").val() == '' ){
-			alert("Please enter address.");
-			$("#address").focus()
-		   return false;
-	   	}
-		 if($("#mobileNo").val() == '' ){
-			alert("Please enter Mobile Number.");
-			$("#mobileNo").focus()
-		   return false;
-	   	}
-		 if($("#mobileNo").val().length != 10 ){
-			alert("Please enter 10 digit Mobile Number.");
-			$("#mobileNo").focus()
-			return false;
-		   	}
-		 if(checkValidEmailID($("#emailid").val())){
-			alert("Please enter valid Email ID.");
-			$("#emailid").focus()
-			return false;
-	   }
+	 	
+	if($("#address").val() == '' ){
+		alert("Please enter address.");
+		$("#address").focus()
+	   return false;
+	}
+	 if($("#mobileNo").val() == '' ){
+		alert("Please enter Mobile Number.");
+		$("#mobileNo").focus()
+	   return false;
+	}
+	 if($("#mobileNo").val().length != 10 ){
+		alert("Please enter 10 digit Mobile Number.");
+		$("#mobileNo").focus()
+		return false;
+	}
+		
 	$("#popcontent").html("Are you sure you want to place order?");
 	$("#lodaingModal").modal('show');
 	
@@ -199,7 +192,11 @@ function placefinalOrder(){
 	$("#popcontent").html("Please wait your order is in progress. Do not close this window.");
 	var array = {};
 	array["userName"]=$("#fname").val();
-	array["address"]=$("#address").val()+", Pincode : "+$("#pincode").val();
+	var address = $("#address").val();
+	if($("#pincode").val() != ""){
+		address=address +", Pincode : "+ $("#pincode").val();
+	}
+	array["address"]=address;
 	array["area"]=$("#area").val();
 	array["additionalNote"]=$("#additionalNote").val();
 	array["currArea"]=localStorage.getItem("i_currcart");
@@ -219,6 +216,7 @@ function placefinalOrder(){
 					$("#footerid").show();
 					$("#placeOrder").remove();
 					$("#closeButton").attr("onclick","location.href='index.html'");
+					localStorage.removeItem("i_cart")
 					},
 			  error : function (response) { 						
 					$('#lodaingModal').modal('hide');

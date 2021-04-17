@@ -121,7 +121,7 @@ function generatedynamicRow(value,val){
 			var tr='<tr><td>'+($("#displayTableDetails tbody tr").length + 1)+'</td><td>'+$(obj1).attr('item')+'<input type="hidden" name="id" value="'+val+'" /></td>';
 			tr =tr + '<td>'+createSelectBox($(obj1).attr('type'))+'</td><td>'+createSelectBox($(obj1).attr('brand'))+'</td>';
 			tr=tr + '<td>'+createSelectBox($(obj1).attr('grade'))+'</td><td>'+createSelectBox($(obj1).attr('unit'))+'</td>';
-			tr=tr + '<td><input type="text" style="width:100px" name="price" maxlength="7" class="form-control" ></td><td><input type="text"  style="width:180px" name="shopname" class="form-control" ></td>';
+			tr=tr + '<td><input type="text" style="width:70px" name="price" maxlength="7" class="form-control" ></td><td><input type="text"  style="width:150px" name="shopname" class="form-control" ></td>';
 			tr=tr + '<td><input type="button" class="btn btn-primary" value="Save" onclick="return saveRowVal(this)" /></td><td><input type="button" class="btn btn-primary" value="Delete" onclick="return deleteRowVal(this)" /></td></tr>';
 			$("#displayTableDetails tbody").append(tr);	
 		}
@@ -288,7 +288,11 @@ function fetchAllTransaction(){
 				if("DuplicateOrder" == $(obj).attr('orderStatus') || "CustomerCancelOrder" == $(obj).attr('orderStatus') ){
 					color = "background-color: lightpink;";
 				}
-				$("#displayTableDetails tbody").append('<tr><td style="'+color+'">'+(++i)+'</td><td style="'+color+'">'+$(obj).attr('orderid')+'</td><td style="'+color+'">'+$(obj).attr('userName')+'</td><td style="'+color+'">'+$(obj).attr('mobileNo')+'</td><td style="'+color+'">'+$(obj).attr('emailID')+'</td><td style="'+color+'">'+add+'</td><td style="'+color+'">'+$(obj).attr('addNotes')+'</td><td style="'+color+'">'+orderStatusSelect(i,$(obj).attr('orderid'))+'</td><td style="'+color+'">'+$(obj).attr('transDate')+'</td><td style="'+color+'"><input type="button" value="More" onclick="return showTransDetails(this)" data-val="'+$(obj).attr("orderDetails")+'" class="btn btn-primary"></td></tr>');
+				var ordStatus=$(obj).attr('addNotes');
+				if($(obj).attr('addNotes') == null){
+					ordStatus="";
+				}
+				$("#displayTableDetails tbody").append('<tr><td style="'+color+'"  data-type="number">'+(++i)+'</td><td style="'+color+'">'+$(obj).attr('orderid')+'<br>'+$(obj).attr('userName')+'</td><td style="'+color+'">'+$(obj).attr('mobileNo')+'<br>'+$(obj).attr('emailID')+'</td><td style="'+color+'">'+add+'</td><td style="'+color+'">'+ordStatus+'</td><td style="'+color+'">'+orderStatusSelect(i,$(obj).attr('orderid'))+'</td><td style="'+color+'">'+$(obj).attr('transDate')+'</td><td style="'+color+'"><input type="button" value="More" onclick="return showTransDetails(this)" data-val="'+$(obj).attr("orderDetails")+'" class="btn btn-primary"></td></tr>');
 				$("#order_"+i).val($(obj).attr('orderStatus'));
 			})
 			$("#loadingdiv").hide();
@@ -300,8 +304,8 @@ function fetchAllTransaction(){
 	});
 }
 function orderStatusSelect(i,id){
-	var sel =  '<select id="order_'+i+'"><option value="OrderPlaced">OrderPlaced</option><option value="In-Progress">In-Progress</option><option value="Delivered">Delivered</option><option value="CustomerNotReachable">CustomerNotReachable</option><option value="FakeOrder">FakeOrder</option><option value="DuplicateOrder">DuplicateOrder</option><option value="CustomerCancelOrder">CustomerCancelOrder</option><option value="ItemNotAvailabel">ItemNotAvailabel</option></select>';
-	sel = sel + '<br><input type="button" class="btn btn-primary" value="Update Order Status" data-id="'+id+'" onclick="updateOrderStatus('+i+',this)" />';
+	var sel =  '<select id="order_'+i+'" style="width:130px"><option value="OrderPlaced">OrderPlaced</option><option value="In-Progress">In-Progress</option><option value="Delivered">Delivered</option><option value="CustomerNotReachable">CustomerNotReachable</option><option value="FakeOrder">FakeOrder</option><option value="DuplicateOrder">DuplicateOrder</option><option value="CustomerCancelOrder">CustomerCancelOrder</option><option value="ItemNotAvailabel">ItemNotAvailabel</option></select>';
+	sel = sel + '<br><input type="button" class="btn btn-primary" value="Update Order" data-id="'+id+'" onclick="updateOrderStatus('+i+',this)" />';
 	return sel;
 }
 function updateOrderStatus(i,obj){
