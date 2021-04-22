@@ -67,7 +67,7 @@ function createUserRows(response){
 	$("#displayTableDetails tbody").empty();
 	$(response).each(function(i,obj){
 		var tr='<tr><td data-type="number">'+(++i)+'</td><td>'+$(obj).attr('item')+'</td><td>'+$(obj).attr('type')+'</td><td>'+$(obj).attr('brand')+'</td>';
-		tr = tr + '<td>'+$(obj).attr('grade')+'</td><td>'+$(obj).attr('unit')+'</td><td>'+$(obj).attr('price')+' Rs.</td><td>'+$(obj).attr('shopName')+'</td>';
+		tr = tr + '<td>'+$(obj).attr('grade')+'</td><td>'+$(obj).attr('unit')+'</td><td>'+$(obj).attr('price')+' Rs.</td><td style="display:none;">'+$(obj).attr('shopName')+'</td>';
 		tr = tr+'<td><input type="number" class="cardQty" data-key="'+$(obj).attr('id')+'" style="width:80px" data-id="'+i+'" data-price="'+$(obj).attr('price')+'" onblur="checkFinalPriceBlur(this)" onchange="checkFinalPrice(this)" onkeyup="checkFinalPrice(this)"  value="1" id="qty"></td><td><span class="priceSpan" data-price="'+$(obj).attr('price')+'" id="aprice_'+i+'">'+$(obj).attr('price')+' Rs</span></td><td><input type="button" onclick="return removeToCart(this)" value="Remove" data-val="'+$(obj).attr('id')+'"class="btn btn-primary" /></td></tr>';
 		$("#displayTableDetails tbody").append(tr);	
 	});

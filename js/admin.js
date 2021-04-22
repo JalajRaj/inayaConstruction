@@ -75,6 +75,7 @@ function initRegionData(){
 		success: function (response) {
 			$("#displayTableDetails tbody").empty();
 			console.log(response)
+			
 			$(response).each(function(i,obj){
 				if($(obj).attr('item') != "location"){
 					var result = checkAdimUpdateCond(obj);
@@ -198,7 +199,7 @@ function saveRowVal(obj){
 			&& $(obj).find('td').eq(3).find('select').val() == map["brand"]
 			&& $(obj).find('td').eq(4).find('select').val() == map["grade"]			
 			&& $(obj).find('td').eq(5).find('select').val() == map["unit"]
-			&& $(obj).find('td').eq(7).find('input').val().toUpperCase() == map["shopName"].toUpperCase()){
+			&& ($(obj).find('td').eq(7).find('input').val() != undefined && $(obj).find('td').eq(7).find('input').val().toUpperCase() == map["shopName"].toUpperCase())){
 				alert("Sorry could save this result.\nThis combination already exists at row no "+$(obj).find('td').eq(0).html());
 				found=true;
 			}

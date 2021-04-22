@@ -130,7 +130,11 @@ function initUserEntryData(){
 			url: serverURL + "getLocationDetails",
 			success: function (response) {	
 				locArea=response;
-				$("#locationVal").val($(response)[0])	
+				if(localStorage.getItem("i_area") == null){
+					$("#locationVal").val($(response)[0]);
+				}else{
+					$("#locationVal").val(localStorage.getItem("i_area"));
+				}
 				intiAutoComplete("locationVal",response);					
 				getRatesValues("1");		
 			},
