@@ -163,3 +163,16 @@ function showSlides() {
 	dots[slideIndex - 1].className += " w3-white";
 	timeoutvar = setTimeout(showSlides, 2000); // Change image every 2 seconds
 }
+function plusImage(index) {
+	stopSlideShow();
+	slideIndex = parseInt(index) + parseInt(slideIndex) - 1;
+	showSlides();
+}
+function slidePosition(index) {
+	stopSlideShow();
+	slideIndex = parseInt(index)- 1;
+	showSlides();
+}
+function stopSlideShow() {
+	clearTimeout(timeoutvar);
+}

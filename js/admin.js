@@ -77,14 +77,17 @@ function initRegionData(){
 			console.log(response)
 			$(response).each(function(i,obj){
 				if($(obj).attr('item') != "location"){
-					generatedynamicRow($(obj).attr('item'),$(obj).attr('id'));
+					var result = checkAdimUpdateCond(obj);
+					generatedynamicRow($(obj).attr('item'),$(obj).attr('id'),result);
 					var tdLoop = $('#displayTableDetails tr:last > td');					
 					$(tdLoop).eq(2).find('select').val($(obj).attr('type'));
 					$(tdLoop).eq(3).find('select').val($(obj).attr('brand'));
 					$(tdLoop).eq(4).find('select').val($(obj).attr('grade'));
 					$(tdLoop).eq(5).find('select').val($(obj).attr('unit'));
 					$(tdLoop).eq(6).find('input').val($(obj).attr('price'));
-					$(tdLoop).eq(7).find('input').val($(obj).attr('shopName'));
+					if(result){
+						$(tdLoop).eq(7).find('input').val($(obj).attr('shopName'));
+					}
 				}
 			});
 			
@@ -111,21 +114,33 @@ function closePopup(){
 	$("#confirmModal").modal('hide');
 }
 function createNewCombination(){
-	generatedynamicRow($("#popupselect").val(),"-1");
+	generatedynamicRow($("#popupselect").val(),"-1",true);
 	closePopup();
 }
-function generatedynamicRow(value,val){
+function generatedynamicRow(value,val,result){
 	
 	$(masterResp).each(function(i,obj1){
 		if($(obj1).attr('item') == value){
 			var tr='<tr><td>'+($("#displayTableDetails tbody tr").length + 1)+'</td><td>'+$(obj1).attr('item')+'<input type="hidden" name="id" value="'+val+'" /></td>';
 			tr =tr + '<td>'+createSelectBox($(obj1).attr('type'))+'</td><td>'+createSelectBox($(obj1).attr('brand'))+'</td>';
 			tr=tr + '<td>'+createSelectBox($(obj1).attr('grade'))+'</td><td>'+createSelectBox($(obj1).attr('unit'))+'</td>';
-			tr=tr + '<td><input type="text" style="width:70px" name="price" maxlength="7" class="form-control" ></td><td><input type="text"  style="width:150px" name="shopname" class="form-control" ></td>';
-			tr=tr + '<td><input type="button" class="btn btn-primary" value="Save" onclick="return saveRowVal(this)" /></td><td><input type="button" class="btn btn-primary" value="Delete" onclick="return deleteRowVal(this)" /></td></tr>';
+			tr=tr + '<td><input type="text" style="width:70px" name="price" maxlength="7" class="form-control" ></td>';
+			if(result){
+				tr=tr+'<td><input type="text"  style="width:150px" name="shopname" class="form-control" ></td>';
+				tr=tr + '<td><input type="button" class="btn btn-primary" value="Save" onclick="return saveRowVal(this)" /></td><td><input type="button" class="btn btn-primary" value="Delete" onclick="return deleteRowVal(this)" /></td>';
+			}else{
+				tr=tr+'<td></td><td></td><td></td>';
+			}
+			tr=tr + '</tr>';
 			$("#displayTableDetails tbody").append(tr);	
 		}
 	});	
+}
+function checkAdimUpdateCond(obj1){
+	if($(obj1).attr('mobileNo') == null || $(obj1).attr('mobileNo') ==localStorage.getItem("i_token").substr(10) || localStorage.getItem("i_userType") == 'S' ){
+		return true;
+	}
+	return false;
 }
 function deleteRowVal(obj){
 	if(confirm("Are you sure you want to delete this row ?")){

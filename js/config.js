@@ -4,7 +4,7 @@ if(document.getElementById("myConfigLib") != null){
 	myPath="";
 }
 
-var footerSection =  '<footer class="container-fluid" style="margin-top:130px" id="gtco-footer">'+
+var footerSection =  '<footer class="container-fluid" style="margin-top:130px;padding-top:80px" id="gtco-footer">'+
     '<div class="container">'+
         '<div class="row">'+
             '<div class="col-lg-6" id="contact">'+
