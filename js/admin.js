@@ -34,6 +34,7 @@ function initAdminEntryInfo(){
 				}
 				$("#userDetails").html("Welcome <b>"+localStorage.getItem("i_username")+"</b>, Area <b>"+areaInfo+"</b>");	
 				if(selectbox != ''){	
+					locArea=locArea.sort();
 					intiAutoComplete("area",locArea);	
 					$("#area").val($(locArea)[0])	
 				}

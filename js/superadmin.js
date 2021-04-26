@@ -189,6 +189,7 @@ function initMasterConfig(){
 				if($(obj1).attr("item") == 'location'){
 					var obj3 = $(obj1).attr('type');
 						if(obj3 != undefined){
+							obj3=obj3.sort();
 							$(obj3).each(function(k,obj4){
 								$("#locations").append('<li><a href="javascript:void(0);">'+obj4+ '<span data-value="'+obj4+'" onclick="return deleteLocation(this)" class="rem" ></span></a></li>');
 							})
@@ -364,7 +365,8 @@ function fetchAllTransaction(){
 				if(emailid == null){
 					emailid="";
 				}
-				$("#displayTableDetails tbody").append('<tr><td style="'+color+'" data-type="number">'+(++i)+'</td><td style="'+color+'">'+$(obj).attr('orderid')+'<br>'+$(obj).attr('userName')+'</td><td style="'+color+'">'+$(obj).attr('area')+'</td><td style="'+color+'">'+$(obj).attr('mobileNo')+'<br>'+emailid+'</td><td style="'+color+'">'+add+'</td><td style="'+color+'">'+ordStatus+'</td><td style="'+color+'">'+orderStatusSelect(i,$(obj).attr('orderid'))+'</td><td style="'+color+'">'+$(obj).attr('transDate')+'</td><td style="'+color+'"><input type="button" value="More" onclick="return showTransDetails(this)" data-val="'+$(obj).attr("orderDetails")+'" class="btn btn-primary"></td></tr>');
+				var areaval = "Delivery Area: "+$(obj).attr('area')+"<br>Order Area: "+$(obj).attr('orderArea');
+				$("#displayTableDetails tbody").append('<tr><td style="'+color+'" data-type="number">'+(++i)+'</td><td style="'+color+'">'+$(obj).attr('orderid')+'<br>'+$(obj).attr('userName')+'</td><td style="'+color+'">'+areaval+'</td><td style="'+color+'">'+$(obj).attr('mobileNo')+'<br>'+emailid+'</td><td style="'+color+'">'+add+'</td><td style="'+color+'">'+ordStatus+'</td><td style="'+color+'">'+orderStatusSelect(i,$(obj).attr('orderid'))+'</td><td style="'+color+'">'+$(obj).attr('transDate')+'</td><td style="'+color+'"><input type="button" value="More" onclick="return showTransDetails(this)" data-val="'+$(obj).attr("orderDetails")+'" class="btn btn-primary"></td></tr>');
 				$("#order_"+i).val($(obj).attr('orderStatus'));
 			})
 			$("#loadingdiv").hide();
