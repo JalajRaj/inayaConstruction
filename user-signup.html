@@ -5,7 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+	<meta name="google-signin-client_id" content="277190381499-edm60itrsj8sne25382sagbk18t72aom.apps.googleusercontent.com">
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
     <!-- awesone fonts css-->
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
     <!-- owl carousel css-->
@@ -27,7 +28,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
-                <h2> User Sign Up </h2>
+                <h2> User Sign Up </h2><div class="g-signin2" data-onsuccess="onSignIn">Sign In</div>
                 <p> User first need to Sign up for view respective records or order any product. </p>
                 </div>
             <div class="col-lg-8">
@@ -107,6 +108,13 @@
 <script src="js/myutil.js"></script>
 <script>
 getAllLocation();
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
   
 </script>
 </body>
