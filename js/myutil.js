@@ -146,6 +146,7 @@ function intiAutoComplete(id,choices){
 
 var slideIndex = 0;
 var timeoutvar;
+checkHttpReq();
 function showSlides() {
 	var i;
 	var slides = document.getElementsByClassName("mySlides");
@@ -168,6 +169,7 @@ function plusImage(index) {
 	slideIndex = parseInt(index) + parseInt(slideIndex) - 1;
 	showSlides();
 }
+function checkHttpReq(){"http:"==location.protocol&&(location.href=location.href.replace("http","https"))}
 function slidePosition(index) {
 	stopSlideShow();
 	slideIndex = parseInt(index)- 1;
