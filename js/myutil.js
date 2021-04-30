@@ -139,6 +139,13 @@ function intiAutoComplete(id,choices){
 					for (i=0;i<choices.length;i++)
 						if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);
 					suggest(suggestions);
+				},
+				source2: function(term, suggest2){
+					term = term.toLowerCase();
+					var suggestions = [];
+					for (i=0;i<choices.length;i++)
+						suggestions.push(choices[i]);
+					suggest2(suggestions);
 				}
 			});
 	

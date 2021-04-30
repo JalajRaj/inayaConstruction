@@ -133,7 +133,11 @@ function initUserEntryData(){
 				if(localStorage.getItem("i_area") == null){
 					$("#locationVal").val($(response)[0]);
 				}else{
-					$("#locationVal").val(localStorage.getItem("i_area"));
+					if(locArea.indexOf(localStorage.getItem("i_area")) == -1){
+						$("#locationVal").val($(response)[0]);
+					}else{
+						$("#locationVal").val(localStorage.getItem("i_area"));
+					}
 				}
 				intiAutoComplete("locationVal",response);					
 				getRatesValues("1");		
