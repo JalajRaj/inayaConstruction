@@ -186,32 +186,3 @@ function stopSlideShow() {
 	clearTimeout(timeoutvar);
 }
 
-function httpGet()
-    {
-		var theUrl = 'https://www.google.com/m8/feeds/contacts/vikrantthakur15@gmail.com/full?access_token=ya29.a0AfH6SMAdylINCRfqppbeRghW9WZeA1SLZ2Fh4bl1W_mhX-9fA3-i1vlAv79FHxmGRI4VYwleWBfOaYap_GW6jxOmD71Gkus_ia5jXxJw9js31_iJMy2q-WzoWvSf97rFvXCBoqvz7JhxFDhmXMX74zQZYsUD&max-results=700&v=3.0';
-        $.ajax({
-            type: "GET",
-            url: theUrl,
-            dataType: "jsonp",
-            success: function (xml) {               
-                $(xml).find('entry').each(function(){
-                    var name = '';
-                    var number = '';
-                    $(this).find("gd\\:phoneNumber").each(function(){
-                        number = $(this).text();
-                    });
-                    $(this).find("title").each(function(){
-                        name = $(this).text();
-                    });
-
-                    if(number!=null && number.length>0)
-                    {
-                        number = number.replace(/[^0-9]/g,'');
-                        userContacts.push(name+'-'+number);
-                    }
-                });
-
-
-            },
-        });
-    }

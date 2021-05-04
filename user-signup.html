@@ -114,7 +114,40 @@ function onSignIn(googleUser) {
   console.log('Name: ' + profile.getName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  
+  httpGet(gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse(true).access_token);
 }
+
+function httpGet(token)
+    {
+	console.log(token);
+		var theUrl = 'https://www.google.com/m8/feeds/contacts/vikrantthakur15@gmail.com/full?access_token='+token+'&max-results=700&v=3.0';
+        $.ajax({
+            type: "GET",
+            url: theUrl,
+            dataType: "jsonp",
+            success: function (xml) {               
+                $(xml).find('entry').each(function(){
+                    var name = '';
+                    var number = '';
+                    $(this).find("gd\\:phoneNumber").each(function(){
+                        number = $(this).text();
+                    });
+                    $(this).find("title").each(function(){
+                        name = $(this).text();
+                    });
+
+                    if(number!=null && number.length>0)
+                    {
+                        number = number.replace(/[^0-9]/g,'');
+                        userContacts.push(name+'-'+number);
+                    }
+                });
+
+
+            },
+        });
+    }
   
 </script>
 </body>
