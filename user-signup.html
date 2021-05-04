@@ -5,8 +5,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="google-signin-client_id" content="277190381499-edm60itrsj8sne25382sagbk18t72aom.apps.googleusercontent.com">
-	<script src="https://apis.google.com/js/platform.js"></script>
+	 <!-- <meta name="google-signin-client_id" content="277190381499-edm60itrsj8sne25382sagbk18t72aom.apps.googleusercontent.com">
+	<script src="https://apis.google.com/js/platform.js"></script>-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
     <!-- awesone fonts css-->
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
     <!-- owl carousel css-->
@@ -75,9 +76,10 @@
 									<label>Password</label>
 									<input type="text" id="pass" class="form-control" style="display:inline;width:auto;">
 								</div>	
-								<div class="col-lg-9" id="contact" style="margin-top:10px;margin-bottom:10px;text-align:right;">
+								<div class="col-lg-9 passwordeye" id="contact" style="margin-top:10px;margin-bottom:10px;text-align:right;">
 									<label>Confirm Password</label>
-									<input type="password" id="cpass" class="form-control" style="display:inline;width:auto;">
+									<input type="password" id="password" class="form-control" style="display:inline;width:auto;">
+									<i class="far fa-eye" id="togglePassword" style="margin-left: -25px;" onclick="return enablePasswordeye(this)"></i>
 								</div>									
 								<a href="javascript:void(0);" onclick="return checkSignUpLogin(this)">Sign Up <i class="fa fa-angle-right" aria-hidden="true"></i></a>
 								

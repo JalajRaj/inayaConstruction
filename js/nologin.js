@@ -87,11 +87,11 @@ function checkSignUpLogin(obj){
 		alert("Please enter valid Password");
 		return false;
 	}
-	if($("#cpass").val() == ""){
+	if($("#password").val() == ""){
 		alert("Please enter valid Confirm Password");
 		return false;
 	}
-	if($("#pass").val() != $("#cpass").val()){
+	if($("#pass").val() != $("#password").val()){
 		alert("Password and confirm Password does not match");
 		return false;
 	}

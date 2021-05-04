@@ -185,4 +185,12 @@ function slidePosition(index) {
 function stopSlideShow() {
 	clearTimeout(timeoutvar);
 }
-
+function enablePasswordeye(obj){
+	if($("#password").attr('type') == 'text'){
+		$("#password").attr('type','password');
+		$(obj).attr('class','far fa-eye');
+	}else{
+		$("#password").attr('type','text');
+		$(obj).attr('class','far fa-eye-slash');
+	}
+}

@@ -963,3 +963,8 @@ img{
 	height: auto;
     max-width: 100%;
 }
+
+.passwordeye i {
+    margin-left: -30px;
+    cursor: pointer;
+}
