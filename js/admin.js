@@ -216,7 +216,8 @@ function saveRowVal(obj){
 				data:JSON.stringify(map),
 				url: serverURL + "saveRegionWiseRecord",
 				success: function (response) {
-					alert(response);	
+					alert("Data save Successfully.");
+					par.eq(1).find('input').val(response);					
 					$(obj).attr('disabled', false);
 					$(obj).val('Save');				
 				},
