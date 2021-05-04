@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="google-signin-client_id" content="277190381499-edm60itrsj8sne25382sagbk18t72aom.apps.googleusercontent.com">
-	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<script src="https://apis.google.com/js/platform.js"></script>
     <!-- awesone fonts css-->
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
     <!-- owl carousel css-->
@@ -110,12 +110,15 @@
 getAllLocation();
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
+  $("#username").val(profile.getName());
+  $("#emailid").val(profile.getEmail());
+  
   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
   console.log('Name: ' + profile.getName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   
-  httpGet(gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse(true).access_token);
+  //httpGet(gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse(true).access_token);
 }
 
 function httpGet(token)
