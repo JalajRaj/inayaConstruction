@@ -6,10 +6,6 @@ function saveLocation(obj){
 		alert("Please enter Location Name");
 		return false;
 	}
-	if(item.indexOf(" ")!= -1){
-		alert("Sorry space is not allowed");
-		return false;
-	}
 	if(confirm("Are you sure you want to add new location.")){
 		$(obj).attr('disabled', true);
 		$(obj).val('Please Wait..');
