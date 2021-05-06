@@ -28,7 +28,7 @@ function initAdminEntryInfo(){
 						}
 					}
 				});
-				var areaInfo = localStorage.getItem("i_area");
+				var areaInfo = getArea();
 				if(selectbox != ''){
 					areaInfo = selectbox;
 				}
@@ -36,7 +36,7 @@ function initAdminEntryInfo(){
 				if(selectbox != ''){	
 					locArea=locArea.sort();
 					intiAutoComplete("area",locArea);	
-					$("#area").val($(locArea)[0])	
+					$("#area").val(getArea());	
 				}
 				initRegionData();					
 			},
@@ -51,7 +51,14 @@ function getArea(){
 	if($("#area").val() == undefined){
 		return localStorage.getItem("i_area");
 	}else{
-		return $("#area").val();
+		if(sessionStorage.getItem("s_area") == null){
+			sessionStorage.setItem("s_area",localStorage.getItem("i_area"));
+		}else{
+			if($("#area").val() != ""){
+				sessionStorage.setItem("s_area",$("#area").val());			
+			}
+		}
+		return sessionStorage.getItem("s_area");
 	}	
 }
 function initRegionData(){

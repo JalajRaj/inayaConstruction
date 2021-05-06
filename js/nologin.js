@@ -124,13 +124,16 @@ function checkSignUpLogin(obj){
 
 
 function initUserEntryData(){
-	$("#loadingdiv").show();
+	$("#loadingdiv").show();	
 	$.ajax({
 			type: 'POST',
 			url: serverURL + "getLocationDetails",
 			success: function (response) {	
 				locArea=response;
-				if(localStorage.getItem("i_area") == null){
+				if(sessionStorage.getItem("s_area") != null){
+					$("#locationVal").val(sessionStorage.getItem("s_area"));
+				}				
+				else if(localStorage.getItem("i_area") == null){
 					$("#locationVal").val($(response)[0]);
 				}else{
 					if(locArea.indexOf(localStorage.getItem("i_area")) == -1){
@@ -139,6 +142,7 @@ function initUserEntryData(){
 						$("#locationVal").val(localStorage.getItem("i_area"));
 					}
 				}
+				sessionStorage.setItem("s_area",$("#locationVal").val());
 				intiAutoComplete("locationVal",response);					
 				getRatesValues("1");		
 			},
@@ -166,7 +170,8 @@ function getRatesValues(val){
 	var map={};
 	lastLocationSend = $("#locationVal").val();
 	map["area"]=$("#locationVal").val();
-	$("#displayTableDetails tbody").empty();	
+	$("#displayTableDetails tbody").empty();
+	sessionStorage.setItem("s_area",$("#locationVal").val());	
 	$.ajax({
 			type: 'POST',
 			data:JSON.stringify(map),
